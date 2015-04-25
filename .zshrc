@@ -93,17 +93,21 @@ export VISUAL=vim
 export EDITOR=vim
 
 # alias cp -- Show progress while file is copying and make backup
-#  -p - preserve permissions
-#  -o - preserve owner
-#  -g - preserve group
-#  -h - output in human-readable format
-#  --progress - display progress
-#  -b - instead of just overwriting an existing file, save the original
-#  -r - recurse into directories
-#  --backup-dir=/tmp/rsync - move backup copies to "/tmp/rsync"
-#  -e /dev/null - only work on local files
+# -p - preserve permissions
+# -o - preserve owner
+# -g - preserve group
+# -h - output in human-readable format
+# --progress - display progress
+# -b - instead of just overwriting an existing file, save the original
+# -r - recurse into directories
+# --backup-dir=/tmp/rsync - move backup copies to "/tmp/rsync"
+# -e /dev/null - only work on local files
 alias cp="rsync -poghbr --backup-dir=/tmp/rsync -e /dev/null --progress "
 
 export DEFAULT_USER="xin"
 
 export PATH=~/bin:$PATH
+
+if [[ $(uname) == "Darwin" ]]; then
+	fpath=(/usr/local/share/zsh-completions $fpath)
+fi
