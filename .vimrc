@@ -39,6 +39,7 @@ Plugin 'klen/python-mode'
 if !has('win32')
 	if !has('win32unix')
 		Plugin 'Valloric/YouCompleteMe'
+		Plugin 'rdnetto/YCM-Generator'
 	endif
 	Plugin 'SirVer/ultisnips'
 	Plugin 'honza/vim-snippets'
@@ -203,6 +204,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 "YCM
 let g:ycm_enable_diagnostic_signs = 0
 let g:ycm_global_ycm_extra_conf = "~/.ycm_extra_conf.py"
+let g:ycm_confirm_extra_conf = 0
 
 "grep.vim
 let Grep_Default_Options = '-iIRnE --color=auto --exclude-dir={.bzr,.cvs,.git,.hg,.svn} --exclude={tags,cscope.out}'
