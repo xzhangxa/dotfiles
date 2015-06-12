@@ -117,7 +117,14 @@ set ignorecase "ignore letter case
 set smartcase "with ignorecase, only ignore letter case when all letters are not upper
 set incsearch
 set hlsearch "highlight search result
-set clipboard=unnamedplus "use system clipboard
+if has('unix')
+	let s:uname = system("uname -s")
+	if s:uname == "Linux"
+		set clipboard=unnamedplus "use system clipboard
+	endif
+else
+	set clipboard=unnamed "use system clipboard
+endif
 set foldmethod=syntax
 set foldcolumn=4 "fold column
 match ErrorMsg '\s\+$'
