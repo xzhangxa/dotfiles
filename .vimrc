@@ -35,7 +35,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'vim-scripts/grep.vim'
 Plugin 'chrisbra/vim-diff-enhanced'
-Plugin 'klen/python-mode'
+Plugin 'tmhedberg/SimpylFold'
 if !has('win32')
 	if !has('win32unix')
 		Plugin 'Valloric/YouCompleteMe'
@@ -216,6 +216,3 @@ let g:ycm_confirm_extra_conf = 0
 "grep.vim
 let Grep_Default_Options = '-iIRnE --color=auto --exclude-dir={.bzr,.cvs,.git,.hg,.svn} --exclude={tags,cscope.out}'
 let Grep_Default_Filelist = '.'
-
-"python-mode
-let g:pymode_rope = 0
