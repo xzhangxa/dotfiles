@@ -36,6 +36,7 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'vim-scripts/grep.vim'
 Plugin 'chrisbra/vim-diff-enhanced'
 Plugin 'tmhedberg/SimpylFold'
+Plugin 'junegunn/goyo.vim'
 if !has('win32')
 	if !has('win32unix')
 		Plugin 'Valloric/YouCompleteMe'
@@ -216,3 +217,8 @@ let g:ycm_confirm_extra_conf = 0
 "grep.vim
 let Grep_Default_Options = '-iIRnE --color=auto --exclude-dir={.bzr,.cvs,.git,.hg,.svn} --exclude={tags,cscope.out}'
 let Grep_Default_Filelist = '.'
+
+"goyo.vim
+let g:goyo_width = 120
+let g:goyo_height = 100
+nnoremap <silent> <F7> :Goyo<CR>
