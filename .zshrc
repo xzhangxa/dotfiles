@@ -73,7 +73,7 @@ plugins=(git tmux extract command-not-found)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-
+alias rm='trash-put'
 alias ls='ls --color -F'
 alias ll='ls -l'
 alias la='ls -A'
