@@ -82,6 +82,7 @@ if [[ $(uname) == "Darwin" ]]; then
 	alias v='mvim -v'
 	alias vi='mvim -v'
 	alias vim='mvim -v'
+	alias vimdiff='mvimdiff -v'
 	alias vd='mvimdiff -v'
 else
 	alias v='vim'
