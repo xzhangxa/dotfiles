@@ -78,17 +78,9 @@ alias ls='ls --color -F'
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls'
-if [[ $(uname) == "Darwin" ]]; then
-	alias v='mvim -v'
-	alias vi='mvim -v'
-	alias vim='mvim -v'
-	alias vimdiff='mvimdiff -v'
-	alias vd='mvimdiff -v'
-else
-	alias v='vim'
-	alias vi='vim'
-	alias vd='vimdiff'
-fi
+alias v='vim'
+alias vi='vim'
+alias vd='vimdiff'
 set -o vi
 export VISUAL=vim
 export EDITOR=vim
