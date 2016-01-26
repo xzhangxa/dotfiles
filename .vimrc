@@ -3,23 +3,17 @@ filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
 if has('win32')
-	set rtp+=~/vimfiles/bundle/vundle/
+	set rtp+=~/vimfiles/bundle/Vundle.vim
 	let path='~/vimfiles/bundle'
 	call vundle#rc(path)
 else
-	set rtp+=~/.vim/bundle/vundle/
-	call vundle#rc()
+	set rtp+=~/.vim/bundle/Vundle.vim
+	call vundle#begin()
 endif
-" alternatively, pass a path where Vundle should install plugins
-"let path = '~/some/path/here'
-"call vundle#rc(path)
 
 " let Vundle manage Vundle, required
-Plugin 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 
-" The following are examples of different formats supported.
-" Keep Plugin commands between here and filetype plugin indent on.
-" scripts on GitHub repos
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'bling/vim-airline'
@@ -34,8 +28,8 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'vim-scripts/grep.vim'
-Plugin 'chrisbra/vim-diff-enhanced'
 Plugin 'tmhedberg/SimpylFold'
+Plugin 'nvie/vim-flake8'
 Plugin 'junegunn/goyo.vim'
 if !has('win32')
 	if !has('win32unix')
@@ -45,18 +39,8 @@ if !has('win32')
 	Plugin 'SirVer/ultisnips'
 	Plugin 'honza/vim-snippets'
 endif
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" scripts from http://vim-scripts.org/vim/scripts.html
-"Plugin 'L9'
-"Plugin 'FuzzyFinder'
-" scripts not on GitHub
-"Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-"Plugin 'file:///home/gmarik/path/to/plugin'
-" ...
 
+call vundle#end()
 filetype plugin indent on     " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
@@ -222,3 +206,6 @@ let Grep_Default_Filelist = '.'
 let g:goyo_width = 120
 let g:goyo_height = 100
 nnoremap <silent> <F7> :Goyo<CR>
+
+"SimpylFold
+let g:SimpylFold_docstring_preview=1
