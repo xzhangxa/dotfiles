@@ -102,13 +102,12 @@ set ignorecase "ignore letter case
 set smartcase "with ignorecase, only ignore letter case when all letters are not upper
 set incsearch
 set hlsearch "highlight search result
+set clipboard=unnamed "use system clipboard
 if has('unix')
 	let s:uname = system("uname -s")
-	if s:uname == "Linux"
+	if s:uname == "Linux\n"
 		set clipboard=unnamedplus "use system clipboard
 	endif
-else
-	set clipboard=unnamed "use system clipboard
 endif
 set foldmethod=syntax
 set foldcolumn=4 "fold column
@@ -153,7 +152,7 @@ autocmd FileType python setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
 autocmd FileType perl setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
 autocmd FileType ruby setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
 autocmd FileType java setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
-"autocmd FileType cpp setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
+autocmd FileType cpp setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
 autocmd BufRead,BufNewFile *.py let python_highlight_all=1
 autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
