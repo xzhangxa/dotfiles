@@ -26,3 +26,5 @@
 	supdate = submodule update --remote --merge
 [status]
 	submodulesummary = on
+[credential]
+	helper = cache
