@@ -95,7 +95,7 @@ export EDITOR=vim
 # -r - recurse into directories
 # --backup-dir=/tmp/rsync - move backup copies to "/tmp/rsync"
 # -e /dev/null - only work on local files
-alias cp="rsync -poghbr --backup-dir=/tmp/rsync -e /dev/null --progress "
+alias cp="rsync -poghbr --backup-dir=/tmp/rsync -e /dev/null --info=progress2 "
 
 export DEFAULT_USER="xin"
 
