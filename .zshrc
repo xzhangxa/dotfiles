@@ -78,6 +78,7 @@ alias ls='ls --color -F'
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls'
+alias python=python3
 alias v='vim'
 alias vi='vim'
 alias vd='vimdiff'
