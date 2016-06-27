@@ -19,6 +19,7 @@
 [diff]
 	tool = kdiff3
 [alias]
+	ls = status
 	l = log --graph --stat
 	co = checkout
 	sdiff = !git diff && git submodule foreach 'git diff'
