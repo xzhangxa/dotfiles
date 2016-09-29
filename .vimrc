@@ -109,6 +109,7 @@ if has('unix')
 		set clipboard=unnamedplus "use system clipboard
 	endif
 endif
+
 set foldmethod=syntax
 set foldcolumn=4 "fold column
 match ErrorMsg '\s\+$'
@@ -119,7 +120,7 @@ syntax enable
 set background=dark
 colorscheme solarized
 set cursorline
-set colorcolumn=80
+set colorcolumn=80,120
 hi CursorLine term=bold cterm=bold ctermbg=black
 hi SpellBad term=bold cterm=bold ctermbg=red "this is for warning words by youcompleteme
 set guifont=Menlo_for_Powerline:h11
@@ -173,18 +174,17 @@ let NERDTreeAutoCenter=1
 nnoremap <silent> <F10> :NERDTreeFind<CR>
 
 "nerdtree-tabs
-"let g:nerdtree_tabs_open_on_console_startup=1
+let g:nerdtree_tabs_open_on_console_startup=1
 let g:nerdtree_tabs_focus_on_files=1
-let g:nerdtree_tabs_open_on_gui_startup = 0
+let g:nerdtree_tabs_open_on_gui_startup=1
 nnoremap <silent> <F9> :NERDTreeTabsToggle<CR>
 
 "tagbar
 let g:tagbar_left=1
 let g:tagbar_sort=0
 let g:tagbar_autoshowtag=1
-set updatetime=1000
 "let g:tagbar_width=28
-autocmd VimEnter * nested :call tagbar#autoopen(1)
+"autocmd VimEnter * nested :call tagbar#autoopen(1)
 nnoremap <silent> <F8> :TagbarToggle<CR>
 
 "UltiSnips
@@ -196,7 +196,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:ycm_enable_diagnostic_signs = 0
 let g:ycm_global_ycm_extra_conf = "~/.ycm_extra_conf.py"
 let g:ycm_confirm_extra_conf = 0
-let g:ycm_python_binary_path = '/usr/bin/python3'
+let g:ycm_python_binary_path = 'python'
 
 "grep.vim
 let Grep_Default_Options = '-iIRnE --color=auto --exclude-dir={.bzr,.cvs,.git,.hg,.svn} --exclude={tags,cscope.out}'
