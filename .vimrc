@@ -134,8 +134,13 @@ set dictionary+=/usr/share/dict/words
 autocmd BufReadPost * if line("'\"") && line("'\"") <= line("$") | exe "normal `\"" | endif
 
 set completeopt=longest,menu
-"build tags of my own cpp project with Ctrl-F11
-map <C-F11> :!ctags -R --c++-kinds=+pl --fields=+iaS --extra=+q .<CR>
+"build tags of my own cpp project with F11
+map <F11> :call BuildTag()<CR>
+function BuildTag()
+	:silent !ctags -R --c++-kinds=+pl --fields=+iaS --extra=+q .
+	:silent !cscope -Rbq
+	:redraw!
+endfunction
 
 "set very magic for regular expression
 :nnoremap / /\v
@@ -145,7 +150,7 @@ map <C-F11> :!ctags -R --c++-kinds=+pl --fields=+iaS --extra=+q .<CR>
 "setup quickfix window size
 autocmd FileType qf call AdjustWindowHeight(3, 20)
 function! AdjustWindowHeight(minheight, maxheight)
-	  exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+	exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
 endfunction
 
 "per language
