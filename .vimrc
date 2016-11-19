@@ -94,7 +94,6 @@ set laststatus=2 "always show statusline
 set nu "show line numbers
 set ruler "show ruler
 set showcmd "show typed command
-set t_Co=256 "explicitly tell Vim that the terminal supports 256 colors
 set smartindent
 set autoindent
 set backspace=indent,eol,start
@@ -116,6 +115,7 @@ match ErrorMsg '\s\+$'
 set scrolloff=5
 
 "color, font, etc.
+set t_Co=256 "explicitly tell Vim that the terminal supports 256 colors
 syntax enable
 set background=dark
 colorscheme solarized
@@ -154,16 +154,8 @@ function! AdjustWindowHeight(minheight, maxheight)
 endfunction
 
 "per language
-autocmd FileType python setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
-autocmd FileType perl setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
-autocmd FileType ruby setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
-autocmd FileType java setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
-autocmd FileType cpp setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
-autocmd BufRead,BufNewFile *.py let python_highlight_all=1
-autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
-autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
-
+set tabstop=8 expandtab shiftwidth=4 softtabstop=4
+"autocmd FileType c setlocal tabstop=8 shiftwidth=8 softtabstop=8
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "plugin setting
