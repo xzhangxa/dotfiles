@@ -15,7 +15,7 @@ fi
 
 echo "=== Install necessary packages ==="
 sudo apt-get update
-sudo apt-get install aptitude openssh-server git tmux vim vim-nox zsh curl indent cloc ctags cscope build-essential gdb cmake cmake-curses-gui wget
+sudo apt-get install aptitude openssh-server git tmux vim vim-nox zsh curl indent cloc ctags cscope build-essential gdb cmake cmake-curses-gui wget trash-cli
 
 echo "=== Setup oh-my-zsh ==="
 sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O - | sed /env\ zsh/d)"
