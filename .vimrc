@@ -137,6 +137,7 @@ set completeopt=longest,menu
 "build tags of my own cpp project with F11
 map <F11> :call BuildTag()<CR>
 function BuildTag()
+	:YcmGenerateConfig
 	:silent !ctags -R --c++-kinds=+pl --fields=+iaS --extra=+q .
 	:silent !cscope -Rbq
 	:redraw!
