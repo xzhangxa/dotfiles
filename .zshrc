@@ -78,6 +78,7 @@ alias ls='ls --color -F'
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls'
+alias grep='grep -iIn --exclude=tags --exclude-dir={.git,build} --color=auto'
 alias python=python3
 alias pip='pip3'
 alias ipython='ipython3'
