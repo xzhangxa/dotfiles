@@ -1,0 +1,10 @@
+// Place your settings in this file to overwrite the default settings
+{
+    "editor.fontSize": 18,
+    "editor.cursorStyle": "block",
+    "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+    "workbench.iconTheme": "vs-seti",
+    "terminal.integrated.fontSize": 16,
+    "editor.minimap.enabled": true,
+    "vim.useSystemClipboard": true
+}
