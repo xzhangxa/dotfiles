@@ -28,8 +28,7 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'vim-scripts/grep.vim'
-Plugin 'tmhedberg/SimpylFold'
-Plugin 'nvie/vim-flake8'
+Plugin 'python-mode/python-mode'
 Plugin 'junegunn/goyo.vim'
 if !has('win32')
 	if !has('win32unix')
@@ -205,5 +204,6 @@ let g:goyo_width = 120
 let g:goyo_height = 100
 nnoremap <silent> <F7> :Goyo<CR>
 
-"SimpylFold
-let g:SimpylFold_docstring_preview=1
+"python-mode
+let g:pymode_python = 'python3'
+let g:pymode_rope_goto_definition_bind = "<C-]>"
