@@ -30,6 +30,7 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'vim-scripts/grep.vim'
 Plugin 'python-mode/python-mode'
 Plugin 'junegunn/goyo.vim'
+Plugin 'junegunn/fzf'
 if !has('win32')
 	if !has('win32unix')
 		Plugin 'Valloric/YouCompleteMe'
