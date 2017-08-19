@@ -135,7 +135,7 @@ autocmd BufReadPost * if line("'\"") && line("'\"") <= line("$") | exe "normal `
 
 set completeopt=longest,menu
 "build tags of my own cpp project with F11
-map <F11> :call BuildTag()<CR>
+map <F7> :call BuildTag()<CR>
 function BuildTag()
 	:YcmGenerateConfig
 	:silent !ctags -R --c++-kinds=+pl --fields=+iaS --extra=+q .
@@ -203,7 +203,7 @@ let Grep_Default_Filelist = '.'
 "goyo.vim
 let g:goyo_width = 120
 let g:goyo_height = 100
-nnoremap <silent> <F7> :Goyo<CR>
+nnoremap <silent> <F6> :Goyo<CR>
 
 "python-mode
 let g:pymode_python = 'python3'

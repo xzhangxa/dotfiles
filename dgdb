@@ -11,9 +11,9 @@ gdb \
     -ex "dashboard history -output $BELOWDASHTTY" \
     -ex "dashboard expressions -output $BELOWDASHTTY" \
     -ex "dashboard memory -output $BELOWDASHTTY" \
+    -ex "dashboard threads -output $BELOWDASHTTY" \
     -ex "dashboard source -output $RIGHTDASHTTY" \
     -ex "dashboard stack -output $RIGHTDASHTTY" \
-    -ex "dashboard threads -output $RIGHTDASHTTY" \
     "$@"
 tmux kill-pane -t 2
 tmux kill-pane -t 1
