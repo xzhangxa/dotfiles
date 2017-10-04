@@ -65,7 +65,7 @@ sudo apt-get install python3-dev
 cd ~/.vim/bundle/YouCompleteMe
 ./install.py --clang-completer
 cd ~/.vim/bundle/fzf
-./install
+./install --no-bash --no-fish
 
 echo "remember to relogin and change proxy setting in .gitconfig and .zshrc."
 echo "Bye Bye."

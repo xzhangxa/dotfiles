@@ -46,29 +46,14 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 
-if [[ $(uname) == "Darwin" ]]; then
-	export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-	export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-fi
-
 [[ $TMUX == "" ]] && export TERM="xterm-256color"
 
 eval `dircolors ~/.dir_colors`
-export CLICOLOR=1
-export LSCOLORS=GxFxCxDxBxegedabagaced
-# Less Colors for Man Pages
-export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
-export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
-export LESS_TERMCAP_me=$'\E[0m'           # end mode
-export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
-export LESS_TERMCAP_so=$'\E[38;5;016m\E[48;5;220m'    # begin standout-mode - info box
-export LESS_TERMCAP_ue=$'\E[0m'           # end underline
-export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
 ZSH_TMUX_AUTOSTART=true
 ZSH_TMUX_AUTOQUIT=false
 
-plugins=(git tmux extract command-not-found zsh-syntax-highlighting)
+plugins=(git tmux extract command-not-found colored-man-pages zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -105,6 +90,3 @@ export DEFAULT_USER="xin"
 
 export PATH=~/bin:$PATH
 
-if [[ $(uname) == "Darwin" ]]; then
-	fpath=(/usr/local/share/zsh-completions $fpath)
-fi
