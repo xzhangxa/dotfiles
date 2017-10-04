@@ -45,6 +45,7 @@ EOF
 echo "=== Setup oh-my-zsh ==="
 sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O - | sed /env\ zsh/d)"
 sudo chsh -s /bin/zsh $USER
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 echo "=== Download config files ==="
 git clone https://github.com/zhang-xin/my-config-files.git

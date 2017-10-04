@@ -68,7 +68,7 @@ export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 ZSH_TMUX_AUTOSTART=true
 ZSH_TMUX_AUTOQUIT=false
 
-plugins=(git tmux extract command-not-found)
+plugins=(git tmux extract command-not-found zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
