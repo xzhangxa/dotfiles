@@ -28,7 +28,7 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'vim-scripts/grep.vim'
-Plugin 'python-mode/python-mode'
+Plugin 'tmhedberg/SimpylFold'
 Plugin 'junegunn/goyo.vim'
 Plugin 'junegunn/fzf'
 if !has('win32')
@@ -204,7 +204,3 @@ let Grep_Default_Filelist = '.'
 let g:goyo_width = 120
 let g:goyo_height = 100
 nnoremap <silent> <F6> :Goyo<CR>
-
-"python-mode
-let g:pymode_python = 'python3'
-let g:pymode_rope_goto_definition_bind = "<C-]>"
