@@ -90,3 +90,7 @@ export DEFAULT_USER="xin"
 
 export PATH=~/bin:$PATH
 
+dexec() {
+    docker exec -it $1 bash -c "stty cols $COLUMNS rows $LINES && bash";
+}
+

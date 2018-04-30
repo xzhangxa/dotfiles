@@ -1,6 +1,0 @@
-// Place your settings in this file to overwrite the default settings
-{
-    "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
-    "vim.useSystemClipboard": true
-    "vim.foldfix": true
-}

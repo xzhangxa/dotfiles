@@ -27,7 +27,7 @@ fi
 
 echo "=== Install necessary packages ==="
 sudo apt-get update
-sudo apt-get install aptitude openssh-server git tmux vim vim-nox zsh curl indent cloc ctags cscope build-essential gdb cmake cmake-curses-gui wget trash-cli socat python3-pygments
+sudo apt-get install -y aptitude openssh-server git tmux vim vim-nox zsh curl indent cloc cscope build-essential gdb cmake cmake-curses-gui wget trash-cli socat python3-pygments python3-pip
 
 echo "=== Setup GDB ==="
 wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -O ~/.gdbinit
@@ -58,14 +58,20 @@ mkdir ~/bin
 cp my-config-files/dgdb ~/bin
 rm -rf my-config-files
 
-echo "=== Setup Vundle and vim plugins ==="
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-vim +PluginInstall +qall
-sudo apt-get install python3-dev
-cd ~/.vim/bundle/YouCompleteMe
-./install.py --clang-completer
-cd ~/.vim/bundle/fzf
-./install --no-bash --no-fish
+echo "=== Setup Universal ctags ==="
+git clone https://github.com/universal-ctags/ctags.git
+cd ctags
+./autogen.sh
+./configure
+make
+sudo make install
+cd ..
+rm -rf ctags
+
+echo "=== Setup vim-plug and vim plugins ==="
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+vim +PlugInstall +qall
+sed -i 's/colorscheme ron/colorscheme solarized/' ~/.vimrc
 
 echo "remember to relogin and change proxy setting in .gitconfig and .zshrc."
 echo "Bye Bye."
