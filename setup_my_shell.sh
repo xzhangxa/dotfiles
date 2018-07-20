@@ -27,7 +27,7 @@ fi
 
 echo "=== Install necessary packages ==="
 sudo apt-get update
-sudo apt-get install -y aptitude openssh-server git tmux vim vim-nox zsh curl indent cloc cscope build-essential gdb cmake cmake-curses-gui wget trash-cli socat python3-pygments python3-pip
+sudo apt-get install -y aptitude openssh-server git tmux vim vim-nox zsh curl indent cloc cscope build-essential autoconf gdb cmake cmake-curses-gui wget trash-cli python3-dev
 
 echo "=== Setup GDB ==="
 wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -O ~/.gdbinit
