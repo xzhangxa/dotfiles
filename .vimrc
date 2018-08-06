@@ -9,8 +9,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 " status line
 Plug 'bling/vim-airline'
-" cscope key maps
-Plug 'chazy/cscope_maps'
 " header/source file jump
 Plug 'derekwyatt/vim-fswitch'
 " folder/file browser
@@ -95,7 +93,6 @@ set tags=./.tags;,.tags
 map <F7> :call BuildTag()<CR>
 function BuildTag()
 	:YcmGenerateConfig
-	:silent !cscope -Rbq
 	:redraw!
 endfunction
 
@@ -167,6 +164,9 @@ let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 if !isdirectory(s:vim_tags)
     silent! call mkdir(s:vim_tags, 'p')
 endif
+
+"FZF
+nnoremap <silent> <F8> :LeaderfFunction!<CR>
 
 "LeaderF
 noremap <C-P> :LeaderfFunction!<CR>
