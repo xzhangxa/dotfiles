@@ -166,7 +166,7 @@ if !isdirectory(s:vim_tags)
 endif
 
 "FZF
-nnoremap <silent> <F8> :LeaderfFunction!<CR>
+nnoremap <silent> <F8> :FZF<CR>
 
 "LeaderF
 noremap <C-P> :LeaderfFunction!<CR>

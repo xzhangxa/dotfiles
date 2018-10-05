@@ -1,33 +1,8 @@
 #!/bin/bash
 
-echo "=== Setup proxy ==="
-if [ "$1" != "" ]; then
-	export http_proxy=$1
-	export https_proxy=$1
-	export HTTP_PROXY=$1
-	export HTTPS_PROXY=$1
-	git config --global http.proxy $1
-        sudo bash -c "cat<<EOF >> /etc/environment
-http_proxy=\"$http_proxy\"
-https_proxy=\"$https_proxy\"
-EOF"
-        #sudo bash -c "cat<<EOF >> /etc/apt/apt.conf
-#Acquire::http::proxy \"$1\";
-#Acquire::https::proxy \"$1\";
-#EOF"
-        mkdir ~/bin
-        cat<<EOF >> ~/bin/git-proxy
-#!/bin/sh
-PROXY=${1%:*}
-exec socat STDIO SOCKS4:\$PROXY:\$1:\$2
-EOF
-else
-	echo "no proxy is given"
-fi
-
 echo "=== Install necessary packages ==="
-sudo apt-get update
-sudo apt-get install -y aptitude openssh-server git tmux vim vim-nox zsh curl indent cloc cscope build-essential autoconf gdb cmake cmake-curses-gui wget trash-cli python3-dev
+sudo -E apt-get update
+sudo -E apt-get install -y aptitude openssh-server git tmux vim vim-nox zsh htop curl indent cloc cscope build-essential autoconf gdb cmake cmake-curses-gui wget trash-cli python3-dev
 
 echo "=== Setup GDB ==="
 wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -O ~/.gdbinit
@@ -73,5 +48,5 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.c
 vim +PlugInstall +qall
 sed -i 's/colorscheme ron/colorscheme solarized/' ~/.vimrc
 
-echo "remember to relogin and change proxy setting in .gitconfig and .zshrc."
+echo "remember to relogin."
 echo "Bye Bye."
