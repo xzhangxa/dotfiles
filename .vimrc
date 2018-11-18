@@ -5,8 +5,8 @@ call plug#begin()
 
 " git wrapper
 Plug 'tpope/vim-fugitive'
-" git mark shower
-Plug 'airblade/vim-gitgutter'
+" vcs mark shower
+Plug 'mhinz/vim-signify'
 " status line
 Plug 'bling/vim-airline'
 " header/source file jump
@@ -148,10 +148,9 @@ let Grep_Default_Filelist = '.'
 "goyo.vim
 let g:goyo_width = 120
 let g:goyo_height = 100
-nnoremap <silent> <F6> :Goyo<CR>
 
-"vim-gitgutter
-set updatetime=100
+"vim-signify
+nnoremap <silent> <F6> :SignifyDiff<CR>
 
 "vim-gutentags
 let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
@@ -165,8 +164,6 @@ if !isdirectory(s:vim_tags)
     silent! call mkdir(s:vim_tags, 'p')
 endif
 
-"FZF
-nnoremap <silent> <F8> :FZF<CR>
-
 "LeaderF
+nnoremap <silent> <F8> :LeaderfFile<CR>
 noremap <C-P> :LeaderfFunction!<CR>
