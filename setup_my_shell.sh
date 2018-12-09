@@ -2,7 +2,7 @@
 
 echo "=== Install necessary packages ==="
 sudo -E apt-get update
-sudo -E apt-get install -y aptitude openssh-server git tmux vim vim-nox zsh htop curl indent cloc cscope build-essential autoconf gdb cmake cmake-curses-gui pkg-config wget trash-cli python3-dev
+sudo -E apt-get install -y aptitude openssh-server git tmux vim vim-nox zsh htop curl rsync indent cloc build-essential autoconf gdb cmake cmake-curses-gui pkg-config wget trash-cli python3-dev
 
 echo "=== Setup GDB ==="
 wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -O ~/.gdbinit
@@ -30,7 +30,9 @@ cp my-config-files/.tmux.conf ~
 cp my-config-files/.gitconfig ~
 cp my-config-files/.dir_colors ~
 mkdir ~/bin
+mkdir ~/.vim
 cp my-config-files/dgdb ~/bin
+cp my-config-files/.ycm_extra_conf.py ~/.vim/.ycm_extra_conf.py
 rm -rf my-config-files
 
 echo "=== Setup Universal ctags ==="
