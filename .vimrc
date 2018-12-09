@@ -27,8 +27,6 @@ Plug 'plasticboy/vim-markdown'
 Plug 'vim-scripts/grep.vim'
 " block folder for python code
 Plug 'tmhedberg/SimpylFold'
-" Zen mode
-Plug 'junegunn/goyo.vim'
 " auto generate ctags
 Plug 'ludovicchabant/vim-gutentags'
 " show all functions in current file
@@ -144,10 +142,6 @@ let g:ycm_python_binary_path = 'python'
 "grep.vim
 let Grep_Default_Options = '-iIRnE --color=auto --exclude-dir={.bzr,.cvs,.git,.hg,.svn} --exclude={.tags,cscope.out}'
 let Grep_Default_Filelist = '.'
-
-"goyo.vim
-let g:goyo_width = 120
-let g:goyo_height = 100
 
 "vim-signify
 nnoremap <silent> <F6> :SignifyDiff<CR>
