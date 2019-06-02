@@ -39,6 +39,8 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 " fuzzy finder
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" cscope
+Plug 'chazy/cscope_maps'
 
 call plug#end()
 
