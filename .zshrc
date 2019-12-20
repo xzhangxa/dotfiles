@@ -54,7 +54,14 @@ eval `dircolors ~/.dir_colors`
 ZSH_TMUX_AUTOSTART=true
 ZSH_TMUX_AUTOQUIT=false
 
-plugins=(git tmux extract command-not-found colored-man-pages zsh-syntax-highlighting)
+plugins=(
+    git
+    tmux
+    extract
+    command-not-found
+    colored-man-pages
+    zsh-syntax-highlighting
+)
 
 source $ZSH/oh-my-zsh.sh
 
