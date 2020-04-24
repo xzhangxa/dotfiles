@@ -31,18 +31,7 @@ cp my-config-files/.dir_colors ~
 mkdir ~/bin
 mkdir ~/.vim
 cp my-config-files/dgdb ~/bin
-cp my-config-files/.ycm_extra_conf.py ~/.vim/.ycm_extra_conf.py
 rm -rf my-config-files
-
-echo "=== Setup Universal ctags ==="
-git clone https://github.com/universal-ctags/ctags.git
-cd ctags
-./autogen.sh
-./configure
-make
-sudo make install
-cd ..
-rm -rf ctags
 
 echo "=== Setup vim-plug and vim plugins ==="
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim

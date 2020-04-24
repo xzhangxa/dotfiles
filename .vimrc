@@ -25,15 +25,10 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'plasticboy/vim-markdown'
 " :Grep grep enhancement
 Plug 'vim-scripts/grep.vim'
-" block folder for python code
-Plug 'tmhedberg/SimpylFold'
-" auto generate ctags
-Plug 'ludovicchabant/vim-gutentags'
 " show all functions in current file
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 " completer
-Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py --clang-completer' }
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+Plug 'ycm-core/YouCompleteMe', { 'do': 'python3 ./install.py --clangd-completer' }
 " snippet
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -72,7 +67,7 @@ set scrolloff=5
 set t_Co=256 "explicitly tell Vim that the terminal supports 256 colors
 syntax enable
 set background=dark
-colorscheme ron
+colorscheme solarized
 set cursorline
 set colorcolumn=80,120
 hi CursorLine term=bold cterm=bold ctermbg=black
@@ -85,16 +80,10 @@ set guifont=Menlo_for_Powerline:h11
 set dictionary+=/usr/share/dict/words
 
 "remember and open at the pos of the file when last time closed
-autocmd BufReadPost * if line("'\"") && line("'\"") <= line("$") | exe "normal `\"" | endif
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 set completeopt=longest,menu
 set tags=./.tags;,.tags
-"build tags of my own cpp project with F11
-map <F7> :call BuildTag()<CR>
-function BuildTag()
-	:YcmGenerateConfig
-	:redraw!
-endfunction
 
 "set very magic for regular expression
 :nnoremap / /\v
@@ -109,7 +98,8 @@ endfunction
 
 "per language
 set tabstop=8 expandtab shiftwidth=4 softtabstop=4
-"autocmd FileType c setlocal tabstop=8 shiftwidth=8 softtabstop=8
+autocmd FileType c setlocal noexpandtab tabstop=8 shiftwidth=8 softtabstop=8
+autocmd FileType cpp setlocal noexpandtab tabstop=8 shiftwidth=8 softtabstop=8
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "plugin setting
@@ -136,10 +126,12 @@ let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 "YCM
-let g:ycm_enable_diagnostic_signs = 0
-let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_python_binary_path = 'python'
+nnoremap \g :YcmCompleter GoTo<CR>
+nnoremap \d :YcmCompleter GoToDeclaration<CR>
+nnoremap \h :YcmCompleter GoToInclude<CR>
+nnoremap \r :YcmCompleter GoToReferences<CR>
+nnoremap \s :YcmCompleter GoToSymbol<Space>
+nnoremap <F2> :YcmCompleter RefactorRename<Space>
 
 "grep.vim
 let Grep_Default_Options = '-iIRnE --color=auto --exclude-dir={.bzr,.cvs,.git,.hg,.svn} --exclude={.tags,cscope.out}'
@@ -147,18 +139,6 @@ let Grep_Default_Filelist = '.'
 
 "vim-signify
 nnoremap <silent> <F6> :SignifyDiff<CR>
-
-"vim-gutentags
-let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
-let g:gutentags_ctags_tagfile = '.tags'
-let s:vim_tags = expand('~/.cache/tags')
-let g:gutentags_cache_dir = s:vim_tags
-let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
-let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
-let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
-if !isdirectory(s:vim_tags)
-    silent! call mkdir(s:vim_tags, 'p')
-endif
 
 "LeaderF
 nnoremap <silent> <F8> :LeaderfFile<CR>
