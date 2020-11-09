@@ -20,14 +20,16 @@ EOF
 echo "=== Setup oh-my-zsh ==="
 sh -c "RUNZSH=no $(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
 git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
 echo "=== Download config files ==="
-git clone https://github.com/zhang-xin/my-config-files.git
-cp my-config-files/.vimrc ~
-cp my-config-files/.zshrc ~
-cp my-config-files/.tmux.conf ~
-cp my-config-files/.gitconfig ~
-cp my-config-files/.dir_colors ~
+git clone https://github.com/zhang-xin/dotfiles.git
+cp my-config-files/vimrc ~/.vimrc
+cp my-config-files/zshrc ~/.zshrc
+cp my-config-files/p10k.zsh ~/.p10k.zsh
+cp my-config-files/tmux.conf ~/.tmux.conf
+cp my-config-files/gitconfig ~/.gitconfig
+cp my-config-files/dir_colors ~/.dir_colors
 mkdir ~/bin
 mkdir ~/.vim
 cp my-config-files/dgdb ~/bin
