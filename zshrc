@@ -141,7 +141,9 @@ alias cp="rsync -poghbr --backup-dir=/tmp/rsync -e /dev/null --info=progress2 "
 
 export DEFAULT_USER="xin"
 
-export PATH=~/bin:~/.local/bin:$PATH
+if [[ ! "$PATH" == */home/$DEFAULT_USER/.local/bin* ]]; then
+    export PATH=~/bin:~/.local/bin:$PATH
+fi
 
 dexec() {
     docker exec -it $1 bash -c "stty cols $COLUMNS rows $LINES && bash";
