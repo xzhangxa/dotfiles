@@ -24,16 +24,16 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 
 echo "=== Download config files ==="
 git clone https://github.com/zhang-xin/dotfiles.git
-cp my-config-files/vimrc ~/.vimrc
-cp my-config-files/zshrc ~/.zshrc
-cp my-config-files/p10k.zsh ~/.p10k.zsh
-cp my-config-files/tmux.conf ~/.tmux.conf
-cp my-config-files/gitconfig ~/.gitconfig
-cp my-config-files/dir_colors ~/.dir_colors
+cp dotfiles/vimrc ~/.vimrc
+cp dotfiles/zshrc ~/.zshrc
+cp dotfiles/p10k.zsh ~/.p10k.zsh
+cp dotfiles/tmux.conf ~/.tmux.conf
+cp dotfiles/gitconfig ~/.gitconfig
+cp dotfiles/dir_colors ~/.dir_colors
 mkdir ~/bin
 mkdir ~/.vim
-cp my-config-files/dgdb ~/bin
-rm -rf my-config-files
+cp dotfiles/dgdb ~/bin
+rm -rf dotfiles
 
 echo "=== Setup vim-plug and vim plugins ==="
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
