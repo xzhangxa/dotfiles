@@ -22,18 +22,16 @@ sh -c "RUNZSH=no $(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
 git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
-echo "=== Download config files ==="
-git clone https://github.com/zhang-xin/dotfiles.git
-cp dotfiles/vimrc ~/.vimrc
-cp dotfiles/zshrc ~/.zshrc
-cp dotfiles/p10k.zsh ~/.p10k.zsh
-cp dotfiles/tmux.conf ~/.tmux.conf
-cp dotfiles/gitconfig ~/.gitconfig
-cp dotfiles/dir_colors ~/.dir_colors
+echo "=== Copy config files ==="
+cp $(dirname "$0")/vimrc ~/.vimrc
+cp $(dirname "$0")/zshrc ~/.zshrc
+cp $(dirname "$0")/p10k.zsh ~/.p10k.zsh
+cp $(dirname "$0")/tmux.conf ~/.tmux.conf
+cp $(dirname "$0")/gitconfig ~/.gitconfig
+cp $(dirname "$0")/dir_colors ~/.dir_colors
 mkdir ~/bin
 mkdir ~/.vim
-cp dotfiles/dgdb ~/bin
-rm -rf dotfiles
+cp ./dgdb ~/bin
 
 echo "=== Setup vim-plug and vim plugins ==="
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
