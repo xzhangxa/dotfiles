@@ -67,7 +67,7 @@ set scrolloff=5
 set t_Co=256 "explicitly tell Vim that the terminal supports 256 colors
 syntax enable
 set background=dark
-colorscheme solarized
+colorscheme ron
 set cursorline
 set colorcolumn=80,120
 hi CursorLine term=bold cterm=bold ctermbg=black
