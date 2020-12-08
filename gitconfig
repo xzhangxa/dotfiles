@@ -1,23 +1,15 @@
 [core]
 	autocrlf = false
 	editor = vim
-	gitProxy = git-proxy
 [user]
 	name = Xin Zhang
 	email = zhangxin.xa@gmail.com
-#[http]
-#	proxy = xxx
-[sendemail]
-#	smtpencryption = none
-#	smtpserver = xxx
-#	smtpuser = xxx
-#	smtpserverport = xxx
 [push]
 	default = simple
-#[difftool "BeyondCompare"]
-#		cmd = \"C:/Program Files (x86)/Beyond Compare 3/BCompare.exe\"  \"$LOCAL\" \"$REMOTE\"
+[pull]
+	ff = only
 [diff]
-	tool = kdiff3
+	tool = vimdiff
 [alias]
 	ls = status
 	l = log --graph --stat
@@ -29,3 +21,5 @@
 	submodulesummary = on
 [credential]
 	helper = cache
+[url "https://github.com/"]
+	insteadOf = git://github.com/
