@@ -139,7 +139,7 @@ eval `dircolors ~/.dir_colors`
 # -e /dev/null - only work on local files
 alias cp="rsync -poghbr --backup-dir=/tmp/rsync -e /dev/null --info=progress2 "
 
-export DEFAULT_USER="xin"
+export CMAKE_EXPORT_COMPILE_COMMANDS=ON
 
 if [[ ! "$PATH" == */home/$DEFAULT_USER/.local/bin* ]]; then
     export PATH=~/bin:~/.local/bin:$PATH
