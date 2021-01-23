@@ -111,7 +111,11 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias rm='trash-put'
-alias ls='ls --color -F'
+if [[ `uname` == "Darwin" ]]; then
+    alias ls='ls -G'
+else
+    alias ls='ls --color -F'
+fi
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls'
@@ -125,7 +129,11 @@ export EDITOR=vim
 
 [[ $TMUX == "" ]] && export TERM="xterm-256color"
 
-eval `dircolors ~/.dir_colors`
+if [[ `uname` == "Darwin" ]]; then
+    export LSCOLORS=exfxcxdxbxegedabagacad
+else
+    eval `dircolors ~/.dir_colors`
+fi
 
 # alias cp -- Show progress while file is copying and make backup
 # -p - preserve permissions
