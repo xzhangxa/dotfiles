@@ -10,17 +10,17 @@
 [pull]
 	ff = only
 [diff]
-	tool = vimdiff
+	tool = nvim -d
 [alias]
 	ls = status
 	l = log --graph --stat
 	co = checkout
-	sdiff = !git diff && git submodule foreach 'git diff'
-	spush = push --recurse-submodules=on-demand
-	supdate = submodule update --remote --merge
+	supdate = submodule update --init --recursive
 [status]
 	submodulesummary = on
 [credential]
 	helper = cache
 [url "https://github.com/"]
 	insteadOf = git://github.com/
+[init]
+	defaultBranch = master
