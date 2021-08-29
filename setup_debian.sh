@@ -2,7 +2,7 @@
 
 echo "=== Install necessary packages ==="
 sudo -E apt-get update
-sudo -E apt-get install -y aptitude openssh-server git tmux neovim vim vim-nox zsh htop curl rsync clang-format cloc socat tree build-essential autoconf gdb cmake cmake-curses-gui pkg-config wget trash-cli xclip python3-dev
+sudo -E apt-get install -y aptitude openssh-server git tmux zsh python3-pynvim htop curl rsync clang-format cloc socat tree build-essential autoconf gdb cmake cmake-curses-gui pkg-config wget trash-cli xclip python3-dev
 
 echo "=== Setup GDB ==="
 wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -O ~/.gdbinit
@@ -36,7 +36,9 @@ mkdir ~/bin
 cp ./dgdb ~/bin
 cp ./git-proxy ~/bin
 
-echo "=== Setup vim-plug and vim plugins ==="
+echo "=== Setup neovim, vim-plug and vim plugins ==="
+wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage -O ~/bin/nvim
+chmod +x ~/bin/nvim
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 vim +PlugInstall +qall
 sed -i 's/colorscheme default/colorscheme gruvbox/' ~/.vimrc

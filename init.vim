@@ -4,3 +4,4 @@ source ~/.vimrc
 
 :tnoremap <C-w> <C-\><C-n><C-w>
 :nnoremap T :split \| terminal<CR>i
+set jumpoptions=stack
