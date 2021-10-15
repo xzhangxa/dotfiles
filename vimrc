@@ -24,7 +24,7 @@ Plug 'ycm-core/YouCompleteMe', { 'do': 'python3 ./install.py --clangd-completer 
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 " fuzzy finder
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf', { 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 call plug#end()
@@ -103,8 +103,7 @@ autocmd FileType python setlocal foldmethod=indent foldignore=
 "airline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'gruvbox'
-let g:airline_solarized_bg = 'dark'
+let g:airline_theme = 'base16_gruvbox_dark_hard'
 let g:airline#extensions#tabline#enabled = 1
 
 "UltiSnips

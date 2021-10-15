@@ -2,7 +2,10 @@
 
 echo "=== Install necessary packages ==="
 sudo -E apt-get update
-sudo -E apt-get install -y aptitude openssh-server git tmux zsh python3-pynvim htop curl rsync clang-format cloc socat tree build-essential autoconf gdb cmake cmake-curses-gui pkg-config wget trash-cli xclip python3-dev
+sudo -E apt-get install -y \
+            aptitude openssh-server git tmux zsh htop curl wget rsync socat tree trash-cli xclip \
+            build-essential autoconf gdb cmake cmake-curses-gui pkg-config clang-format cloc \
+            fuse python3-pynvim python3-dev
 
 echo "=== Setup GDB ==="
 wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -O ~/.gdbinit
