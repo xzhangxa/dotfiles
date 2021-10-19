@@ -16,8 +16,6 @@ Plug 'Raimondi/delimitMate'
 Plug 'preservim/nerdcommenter'
 " gruvbox colorscheme
 Plug 'morhetz/gruvbox'
-" show all functions in current file
-Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 " completer
 Plug 'ycm-core/YouCompleteMe', { 'do': 'python3 ./install.py --clangd-completer --rust-completer' }
 " snippet
@@ -26,6 +24,10 @@ Plug 'honza/vim-snippets'
 " fuzzy finder
 Plug 'junegunn/fzf', { 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+" Folder navigation
+Plug 'preservim/nerdtree'
+" session
+Plug 'mhinz/vim-startify'
 
 call plug#end()
 
@@ -131,6 +133,14 @@ noremap <Leader>p :LeaderfFunction!<CR>
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
 
+"nerdtree
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <Leader>F :NERDTreeToggle<CR>
+
+"startify
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:startify_session_persistence = 1
+
 "fzf
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <Leader>b :Buffers<CR>
@@ -145,7 +155,7 @@ nnoremap <Leader>sw :call RipgrepFzf('-w '.expand("<cword>"), 0)<CR>
 command! -nargs=* -bang RipgrepFZF call RipgrepFzf(<q-args>, <bang>0)
 "ripgrep with given second half of command line (options, patterns, paths)
 nnoremap <Leader>S :RipgrepFZF<Space>
-nnoremap <Leader>F :Files<Space>
+"nnoremap <Leader>F :Files<Space>
 "FZF with current file's folder set as query, so user can search directly from
 "the current file's folder first
 nnoremap <Leader>f :call FilesFromDirname(0)<CR>

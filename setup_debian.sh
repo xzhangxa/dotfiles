@@ -3,7 +3,7 @@
 echo "=== Install necessary packages ==="
 sudo -E apt-get update
 sudo -E apt-get install -y \
-            aptitude openssh-server git tmux zsh htop curl wget rsync socat tree trash-cli xclip \
+            aptitude openssh-server git tmux zsh htop curl wget rsync socat ranger trash-cli xclip \
             build-essential autoconf gdb cmake cmake-curses-gui pkg-config clang-format cloc \
             fuse python3-pynvim python3-dev
 
