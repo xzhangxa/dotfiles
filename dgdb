@@ -1,12 +1,6 @@
 #!/bin/bash
 
 cmd=gdb
-while getopts c: flag
-do
-    case "${flag}" in
-        c) cmd=${OPTARG}; shift 2;;
-    esac
-done
 
 tmux split-window -h
 RIGHTDASHTTY=$(tmux display -p '#{pane_tty}')
@@ -22,8 +16,8 @@ ${cmd} \
     -ex "dashboard threads -output $BELOWDASHTTY" \
     -ex "dashboard source -output $RIGHTDASHTTY" \
     -ex "dashboard stack -output $RIGHTDASHTTY" \
-    -ex "dashboard assembly -output $RIGHTDASHTTY" \
-    -ex "dashboard registers -output $RIGHTDASHTTY" \
+    -ex "dashboard assembly -output $BELOWDASHTTY" \
+    -ex "dashboard registers -output $BELOWDASHTTY" \
     "$@"
 tmux kill-pane -t 2
 tmux kill-pane -t 1
