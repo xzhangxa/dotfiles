@@ -122,6 +122,7 @@ nnoremap <Leader>h :YcmCompleter GoToInclude<CR>
 nnoremap <Leader>r :YcmCompleter GoToReferences<CR>
 nnoremap <Leader>G :YcmCompleter GoToSymbol<Space>
 nnoremap <Leader>2 :YcmCompleter RefactorRename<Space>
+autocmd User YcmQuickFixOpened autocmd! ycmquickfix WinLeave
 
 "vim-signify
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
