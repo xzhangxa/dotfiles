@@ -45,6 +45,8 @@ set smartcase
 set incsearch
 set hlsearch
 set clipboard+=unnamedplus
+set splitbelow
+set splitright
 
 set foldmethod=syntax
 set foldcolumn=4
@@ -97,7 +99,7 @@ set tabstop=8 expandtab shiftwidth=4 softtabstop=4
 autocmd FileType python setlocal foldmethod=indent foldignore=
 
 "terminal
-:tnoremap <Esc> <C-\><C-n>
+tnoremap <Esc> <C-\><C-n>
 
 "plugin setting
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -153,8 +155,8 @@ nnoremap <Leader>s :call RipgrepFzf(expand("<cword>"), 0)<CR>
 nnoremap <Leader>ss :call RipgrepFzf(expand("<cword>"), 0)<CR>
 "ripgrep word
 nnoremap <Leader>sw :call RipgrepFzf('-w '.expand("<cword>"), 0)<CR>
-command! -nargs=* -bang RipgrepFZF call RipgrepFzf(<q-args>, <bang>0)
 "ripgrep with given second half of command line (options, patterns, paths)
+command! -nargs=* -bang RipgrepFZF call RipgrepFzf(<q-args>, <bang>0)
 nnoremap <Leader>S :RipgrepFZF<Space>
 "nnoremap <Leader>F :Files<Space>
 "FZF with current file's folder set as query, so user can search directly from
@@ -178,7 +180,7 @@ function! FilesFromDirname(fullscreen)
 endfunction
 
 function! RipgrepFzf(string, fullscreen)
-    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+    let command_fmt = 'rg --column --line-number --no-heading --color=always %s || true'
     let args = split(a:string)
     for i in args
         if i[0] !=# '-'
