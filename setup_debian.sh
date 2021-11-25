@@ -26,25 +26,23 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
 echo "=== Copy config files ==="
-cp $(dirname "$0")/vimrc ~/.vimrc
 mkdir -p ~/.config/nvim
 cp $(dirname "$0")/init.vim ~/.config/nvim
 cp $(dirname "$0")/zshrc ~/.zshrc
 cp $(dirname "$0")/p10k.zsh ~/.p10k.zsh
 cp $(dirname "$0")/tmux.conf ~/.tmux.conf
 cp $(dirname "$0")/gitconfig ~/.gitconfig
-cp $(dirname "$0")/dir_colors ~/.dir_colors
-mkdir ~/.vim
 mkdir ~/bin
 cp ./dgdb ~/bin
 cp ./git-proxy ~/bin
 
-echo "=== Setup neovim, vim-plug and vim plugins ==="
+echo "=== Setup neovim, vim-plug and plugins ==="
 wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage -O ~/bin/nvim
 chmod +x ~/bin/nvim
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-vim +PlugInstall +qall
-sed -i 's/colorscheme default/colorscheme gruvbox/' ~/.vimrc
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+nvim +PlugInstall +qall
+sed -i 's/colorscheme default/colorscheme gruvbox/' ~/.config/nvim/init.vim
 
 echo "=== Setup rust and tools from cargo ==="
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > sh.rustup.rs
