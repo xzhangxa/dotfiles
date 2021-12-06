@@ -151,7 +151,7 @@ if [[ `uname` == "Linux" && `lsb_release -i` =~ ".*Debian" ]]; then
 fi
 
 if [[ ! "$PATH" =~ ".*$HOME/.local/bin.*" ]]; then
-    export PATH=~/bin:~/.local/bin:$PATH
+    export PATH=~/.local/bin:$PATH
 fi
 [[ ! -f ~/.cargo/env ]] || source ~/.cargo/env
 

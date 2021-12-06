@@ -1,5 +1,3 @@
-set nocompatible
-
 " set vim-plug
 call plug#begin()
 
@@ -11,19 +9,23 @@ Plug 'mhinz/vim-signify'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " auto close quotes, brackets
-Plug 'Raimondi/delimitMate'
+Plug 'windwp/nvim-autopairs'
 " comments shortcuts
 Plug 'preservim/nerdcommenter'
 " gruvbox colorscheme
 Plug 'morhetz/gruvbox'
-" completer
-Plug 'ycm-core/YouCompleteMe', { 'do': 'python3 ./install.py --clangd-completer --rust-completer' }
-" snippet
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-" fuzzy finder
-Plug 'junegunn/fzf', { 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+" lsp
+Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/nvim-lsp-installer'
+" fuzzy finder and many things else
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" completer, snippets
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
 " Folder navigation
 Plug 'preservim/nerdtree'
 " session
@@ -51,9 +53,12 @@ set clipboard+=unnamedplus
 set splitbelow
 set splitright
 set scrolloff=5
+set jumpoptions=stack
+
+"terminal
+tnoremap <Esc> <C-\><C-n>
 tnoremap <C-w> <C-\><C-n><C-w>
 nnoremap T :split \| terminal<CR>i
-set jumpoptions=stack
 
 "ui, color, font, etc.
 syntax enable
@@ -68,16 +73,11 @@ set foldmethod=syntax
 set foldcolumn=4
 match ErrorMsg '\s\+$'
 highlight CursorLine term=bold cterm=bold ctermbg=black
-highlight SpellBad term=bold cterm=bold ctermbg=red "this is for warning words by youcompleteme
-
-"set up dictionary
-set dictionary+=/usr/share/dict/words
 
 "remember and open at the pos of the file when last time closed
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
 
-set completeopt=longest,menu
-set tags=./.tags;,.tags
+set completeopt=menuone,noselect
 
 "set very magic for regular expression
 nnoremap / /\v
@@ -103,9 +103,6 @@ set tabstop=8 expandtab shiftwidth=4 softtabstop=4
 "autocmd FileType cpp setlocal tabstop=8 noexpandtab shiftwidth=8 softtabstop=8
 autocmd FileType python setlocal foldmethod=indent foldignore=
 
-"terminal
-tnoremap <Esc> <C-\><C-n>
-
 "plugin setting
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -121,80 +118,171 @@ let g:UltiSnipsExpandTrigger = "<c-j>"
 let g:UltiSnipsJumpForwardTrigger = "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
 
-"YCM
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <Leader>g :YcmCompleter GoTo<CR>
-nnoremap <Leader>d :YcmCompleter GoToDeclaration<CR>
-nnoremap <Leader>h :YcmCompleter GoToInclude<CR>
-nnoremap <Leader>r :YcmCompleter GoToReferences<CR>
-nnoremap <Leader>G :YcmCompleter GoToSymbol<Space>
-nnoremap <Leader>2 :YcmCompleter RefactorRename<Space>
-autocmd User YcmQuickFixOpened autocmd! ycmquickfix WinLeave
-
 "vim-signify
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <Leader>6 :SignifyDiff<CR>
-
-"LeaderF
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-noremap <Leader>p :LeaderfFunction!<CR>
-let g:Lf_WindowPosition = 'popup'
-let g:Lf_PreviewInPopup = 1
+nnoremap <leader>2 :SignifyDiff<CR>
 
 "nerdtree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <Leader>F :NERDTreeToggle<CR>
+nnoremap <leader>F :NERDTreeToggle<CR>
 
 "startify
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:startify_session_persistence = 1
 
-"fzf
+"nvim-lspconfig
+"nvim-lsp-installer
+"nvim-cmp
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <Leader>b :Buffers<CR>
-nnoremap <Leader>w :Windows<CR>
-nnoremap <Leader>7 :BCommits<CR>
-nnoremap <Leader>8 :Commits<CR>
-"ripgrep string
-nnoremap <Leader>s :call RipgrepFzf(expand("<cword>"), 0)<CR>
-nnoremap <Leader>ss :call RipgrepFzf(expand("<cword>"), 0)<CR>
-"ripgrep word
-nnoremap <Leader>sw :call RipgrepFzf('-w '.expand("<cword>"), 0)<CR>
-"ripgrep with given second half of command line (options, patterns, paths)
-command! -nargs=* -bang RipgrepFZF call RipgrepFzf(<q-args>, <bang>0)
-nnoremap <Leader>S :RipgrepFZF<Space>
-"nnoremap <Leader>F :Files<Space>
-"FZF with current file's folder set as query, so user can search directly from
-"the current file's folder first
-nnoremap <Leader>f :call FilesFromDirname(0)<CR>
+lua << EOF
+local cmp = require'cmp'
 
-function! FilesFromDirname(fullscreen)
-    let dir = ''
-    let spec = {}
-    let cwd = getcwd()
-    let abspath = fnamemodify(expand('%'), ':p:h')
-    let matched = matchstrpos(abspath, cwd)
-    if abspath ==# cwd
-        let dir = ''
-    elseif matched[0] !=# ""
-        let spec.options = ['-q', abspath[matched[2]+1:].'/']
-    else
-        let dir = abspath
-    endif
-    call fzf#vim#files(dir, fzf#vim#with_preview(spec), a:fullscreen)
-endfunction
+local has_words_before = function()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
 
-function! RipgrepFzf(string, fullscreen)
-    let command_fmt = 'rg --column --line-number --no-heading --color=always %s || true'
-    let args = split(a:string)
-    for i in args
-        if i[0] !=# '-'
-            let query = i
-            break
-        endif
-    endfor
-    let initial_command = printf(command_fmt, a:string)
-    let reload_command = substitute(initial_command, query, '{q}', '')
-    let spec = {'options': ['--phony', '--query', query, '--bind', 'change:reload:'.reload_command]}
-    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
-endfunction
+local feedkey = function(key, mode)
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+end
+
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end,
+  },
+  mapping = {
+    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+    ['<C-y>'] = cmp.config.disable,
+    ['<C-e>'] = cmp.mapping({
+      i = cmp.mapping.abort(),
+      c = cmp.mapping.close(),
+    }),
+    ['<CR>'] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Insert,
+      select = true
+    }),
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif vim.fn["vsnip#available"](1) == 1 then
+        feedkey("<Plug>(vsnip-expand-or-jump)", "")
+      elseif has_words_before() then
+        cmp.complete()
+      else
+        fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+      end
+    end, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(function()
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+        feedkey("<Plug>(vsnip-jump-prev)", "")
+      end
+    end, { "i", "s" }),
+  },
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'vsnip' },
+  }, {
+    { name = 'buffer' },
+  })
+})
+
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', {
+  sources = {
+    { name = 'buffer' }
+  }
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
+})
+
+-- Setup lspconfig.
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+local lsp_installer = require "nvim-lsp-installer"
+
+local servers = {
+  "clangd",
+  "rust_analyzer",
+}
+
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local opts = { noremap=true, silent=true }
+  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', '<leader>k', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<leader>n', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<leader>p', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+
+  if client.resolved_capabilities.document_highlight then
+    vim.cmd [[
+      hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
+      hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
+      hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
+      augroup lsp_document_highlight
+        autocmd! * <buffer>
+        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+      augroup END
+    ]]
+  end
+end
+
+for _, name in pairs(servers) do
+  local server_is_found, server = lsp_installer.get_server(name)
+  if server_is_found then
+    server:on_ready(function ()
+      local opts = {
+        capabilities = capabilities,
+        on_attach = on_attach,
+      }
+      server:setup(opts)
+    end)
+  end
+end
+EOF
+
+"nvim-autopairs
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+lua << EOF
+require('nvim-autopairs').setup{}
+EOF
+
+"nvim-telescope
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+lua << EOF
+local actions = require("telescope.actions")
+require("telescope").setup{
+  defaults = {
+    mappings = {
+      i = {
+        ["<esc>"] = actions.close
+      },
+    },
+  }
+}
+EOF
+nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>s <cmd>lua require('telescope.builtin').grep_string()<cr>
+nnoremap <leader>S <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>m <cmd>lua require('telescope.builtin').man_pages({ sections = { "ALL" } })<cr>
+nnoremap <leader>1 <cmd>lua require('telescope.builtin').git_status()<cr>
+nnoremap <leader>3 <cmd>lua require('telescope.builtin').git_bcommits()<cr>
+nnoremap <leader>4 <cmd>lua require('telescope.builtin').git_commits()<cr>
+nnoremap <leader>g <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
+nnoremap <leader>r <cmd>lua require('telescope.builtin').lsp_references()<cr>
+nnoremap <leader>l <cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>
+nnoremap <leader>d <cmd>lua require('telescope.builtin').lsp_document_diagnostics()<cr>
