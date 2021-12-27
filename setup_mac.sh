@@ -12,7 +12,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 
 echo "=== Copy config files ==="
 mkdir -p ~/.config/nvim
-cp $(dirname "$0")/init.vim ~/.config/nvim
+head -50 $(dirname "$0")/init.vim > ~/.config/nvim/init.vim
 cp $(dirname "$0")/zshrc ~/.zshrc
 cp $(dirname "$0")/p10k.zsh ~/.p10k.zsh
 cp $(dirname "$0")/tmux.conf ~/.tmux.conf
@@ -27,6 +27,7 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 nvim +PlugInstall +qall
 nvim +'LspInstall --sync clangd rust_analyzer' +qall
+cp $(dirname "$0")/init.vim ~/.config/nvim/init.vim
 
 echo "=== Setup rust and tools from cargo ==="
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > sh.rustup.rs

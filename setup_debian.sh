@@ -10,15 +10,7 @@ sudo -E apt-get install -y \
 echo "=== Setup GDB ==="
 wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -O ~/.gdbinit
 mkdir ~/.gdbinit.d
-cat<<EOF > ~/.gdbinit.d/dashboard
-dashboard -style prompt_not_running '\[\e[1;31m\]>>>\[\e[0m\]'
-dashboard -style style_low '1;31'
-dashboard -style syntax_highlighting 'rrt'
-dashboard -layout source stack threads !memory history !expressions assembly registers
-dashboard source -style height 0
-dashboard stack -style compact True
-dashboard stack -style limit 5
-EOF
+cp $(dirname "$0")/gdb_dashboard ~/.gdbinit.d/dashboard
 
 echo "=== Setup oh-my-zsh ==="
 sh -c "CHSH=no RUNZSH=no $(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
@@ -27,7 +19,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 
 echo "=== Copy config files ==="
 mkdir -p ~/.config/nvim
-cp $(dirname "$0")/init.vim ~/.config/nvim
+head -50 $(dirname "$0")/init.vim > ~/.config/nvim/init.vim
 cp $(dirname "$0")/zshrc ~/.zshrc
 cp $(dirname "$0")/p10k.zsh ~/.p10k.zsh
 cp $(dirname "$0")/tmux.conf ~/.tmux.conf
@@ -45,8 +37,9 @@ wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage -O 
 chmod +x ~/.local/bin/nvim
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-nvim +PlugInstall +qall
-nvim +'LspInstall --sync clangd rust_analyzer' +qall
+~/.local/bin/nvim +PlugInstall +qall
+~/.local/bin/nvim +'LspInstall --sync clangd rust_analyzer' +qall
+cp $(dirname "$0")/init.vim ~/.config/nvim/init.vim
 
 echo "=== Setup rust and tools from cargo ==="
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > sh.rustup.rs

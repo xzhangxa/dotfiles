@@ -1,6 +1,6 @@
 [core]
 	autocrlf = false
-	editor = vim
+	editor = nvim
         gitProxy = git-proxy
 [user]
 	name = Xin Zhang
