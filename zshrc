@@ -136,13 +136,14 @@ fi
 # -p - preserve permissions
 # -o - preserve owner
 # -g - preserve group
+# -l - preserve symlinks
 # -h - output in human-readable format
 # --progress - display progress
 # -b - instead of just overwriting an existing file, save the original
 # -r - recurse into directories
 # --backup-dir=/tmp/rsync - move backup copies to "/tmp/rsync"
 # -e /dev/null - only work on local files
-alias cp="rsync -poghbr --backup-dir=/tmp/rsync -e /dev/null --info=progress2 "
+alias cp="rsync -poglhbr --backup-dir=/tmp/rsync -e /dev/null --info=progress2 "
 
 export CMAKE_EXPORT_COMPILE_COMMANDS=ON
 if [[ `uname` == "Linux" && `lsb_release -i` =~ ".*Debian" ]]; then
