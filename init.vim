@@ -228,9 +228,9 @@ local on_attach = function(client, bufnr)
 
   if client.resolved_capabilities.document_highlight then
     vim.cmd [[
-      hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-      hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-      hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
+      hi LspReferenceRead cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828
+      hi LspReferenceText cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828
+      hi LspReferenceWrite cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828
       augroup lsp_document_highlight
         autocmd! * <buffer>
         autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
@@ -285,4 +285,4 @@ nnoremap <leader>4 <cmd>lua require('telescope.builtin').git_commits()<cr>
 nnoremap <leader>g <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
 nnoremap <leader>r <cmd>lua require('telescope.builtin').lsp_references()<cr>
 nnoremap <leader>l <cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>
-nnoremap <leader>d <cmd>lua require('telescope.builtin').lsp_document_diagnostics()<cr>
+nnoremap <leader>d <cmd>lua require('telescope.builtin').diagnostics({ bufnr = 0 })<cr>
