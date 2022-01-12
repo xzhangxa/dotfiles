@@ -102,6 +102,7 @@ set tabstop=8 expandtab shiftwidth=4 softtabstop=4
 "autocmd FileType c setlocal tabstop=8 noexpandtab shiftwidth=8 softtabstop=8
 "autocmd FileType cpp setlocal tabstop=8 noexpandtab shiftwidth=8 softtabstop=8
 autocmd FileType python setlocal foldmethod=indent foldignore=
+autocmd FileType dts setlocal foldmethod=indent foldignore=
 
 "plugin setting
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -253,6 +254,7 @@ for _, name in pairs(servers) do
   end
 end
 EOF
+set updatetime=2000
 
 "nvim-autopairs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -274,7 +276,8 @@ require("telescope").setup{
   }
 }
 EOF
-nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files({ default_text = vim.fn.expand('%:~:.:h') })<cr>
+nnoremap <leader>w <cmd>lua require('telescope.builtin').grep_string({ word_match = "-w" })<cr>
 nnoremap <leader>s <cmd>lua require('telescope.builtin').grep_string()<cr>
 nnoremap <leader>S <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
