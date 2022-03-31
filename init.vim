@@ -268,6 +268,7 @@ lua << EOF
 local actions = require("telescope.actions")
 require("telescope").setup{
   defaults = {
+    dynamic_preview_title = true,
     mappings = {
       i = {
         ["<esc>"] = actions.close
