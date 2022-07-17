@@ -4,8 +4,8 @@ echo "=== Install necessary packages ==="
 sudo -E apt-get update
 sudo -E apt-get install -y \
             aptitude openssh-server git tmux zsh htop curl wget rsync socat ranger trash-cli xclip \
-            build-essential autoconf gdb cmake cmake-curses-gui pkg-config clang-format cloc \
-            fuse command-not-found lsb-release
+            build-essential autoconf gdb cmake cmake-curses-gui pkgconf clang-format cloc \
+            libfuse2 command-not-found lsb-release
 
 sudo apt-file update && sudo update-command-not-found
 
