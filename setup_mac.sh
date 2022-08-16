@@ -3,7 +3,7 @@
 echo "=== Install necessary packages ==="
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew update
-brew install tmux neovim htop rsync clang-format cloc ranger cmake wget trash-cli
+brew install tmux neovim htop rsync clang-format cloc ranger cmake wget trash-cli python3
 
 echo "=== Setup oh-my-zsh ==="
 sh -c "CHSH=no RUNZSH=no $(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
@@ -28,6 +28,7 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 nvim +PlugInstall +qall
 nvim +'LspInstall --sync clangd rust_analyzer' +qall
 cp $(dirname "$0")/init.vim ~/.config/nvim/init.vim
+python3 -m pip install --user neovim-remote
 
 echo "=== Setup rust and tools from cargo ==="
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > sh.rustup.rs

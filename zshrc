@@ -117,13 +117,22 @@ alias ll='exa -l'
 alias la='exa -a'
 alias grep='grep -iIn --exclude=tags --exclude-dir={.git,.idea,.vscode} --color=auto'
 alias rg='rg --column --no-heading --smart-case --color=always'
-alias v='nvim'
-alias vi='nvim'
-alias vim='nvim'
-alias vd='nvim -d'
+if [[ -n $NVIM ]]; then
+    alias v='nvr'
+    alias vi='nvr'
+    alias vim='nvr'
+    alias vd='nvr -d'
+    export VISUAL=nvr
+    export EDITOR=nvr
+else
+    alias v='nvim'
+    alias vi='nvim'
+    alias vim='nvim'
+    alias vd='nvim -d'
+    export VISUAL=nvim
+    export EDITOR=nvim
+fi
 set -o vi
-export VISUAL=nvim
-export EDITOR=nvim
 
 [[ $TMUX == "" ]] && export TERM="xterm-256color"
 

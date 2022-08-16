@@ -4,7 +4,7 @@ echo "=== Install necessary packages ==="
 sudo -E apt-get update
 sudo -E apt-get install -y \
             aptitude openssh-server git tmux zsh htop curl wget rsync socat ranger trash-cli xclip \
-            build-essential autoconf gdb cmake cmake-curses-gui pkgconf clang-format cloc \
+            build-essential gdb cmake cmake-curses-gui clang-format cloc python3-pip \
             libfuse2 command-not-found lsb-release
 
 sudo apt-file update && sudo update-command-not-found
@@ -42,6 +42,7 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 ~/.local/bin/nvim +PlugInstall +qall
 ~/.local/bin/nvim +'LspInstall --sync clangd rust_analyzer' +qall
 cp $(dirname "$0")/init.vim ~/.config/nvim/init.vim
+python3 -m pip install --user neovim-remote
 
 echo "=== Setup rust and tools from cargo ==="
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > sh.rustup.rs
