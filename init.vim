@@ -121,7 +121,7 @@ let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
 
 "vim-signify
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <leader>2 :SignifyDiff<CR>
+nnoremap <leader>1 :SignifyDiff<CR>
 
 "nerdtree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -282,8 +282,9 @@ nnoremap <leader>w <cmd>lua require('telescope.builtin').grep_string({ word_matc
 nnoremap <leader>s <cmd>lua require('telescope.builtin').grep_string()<cr>
 nnoremap <leader>S <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>o <cmd>lua require('telescope.builtin').oldfiles()<cr>
 nnoremap <leader>m <cmd>lua require('telescope.builtin').man_pages({ sections = { "ALL" } })<cr>
-nnoremap <leader>1 <cmd>lua require('telescope.builtin').git_status()<cr>
+nnoremap <leader>2 <cmd>lua require('telescope.builtin').git_status()<cr>
 nnoremap <leader>3 <cmd>lua require('telescope.builtin').git_bcommits()<cr>
 nnoremap <leader>4 <cmd>lua require('telescope.builtin').git_commits()<cr>
 nnoremap <leader>g <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
