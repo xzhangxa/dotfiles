@@ -1,10 +1,8 @@
 " set vim-plug
 call plug#begin()
 
-" git wrapper
-Plug 'tpope/vim-fugitive'
-" vcs mark shower
-Plug 'mhinz/vim-signify'
+" git mark shower
+Plug 'airblade/vim-gitgutter'
 " status line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -119,9 +117,9 @@ let g:UltiSnipsExpandTrigger = "<c-j>"
 let g:UltiSnipsJumpForwardTrigger = "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
 
-"vim-signify
+"vim-gitgutter
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <leader>1 :SignifyDiff<CR>
+nnoremap <leader>1 :GitGutterDiffOrig<CR>
 
 "nerdtree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
