@@ -60,8 +60,6 @@ nnoremap T :split \| terminal<CR>i
 
 "ui, color, font, etc.
 syntax enable
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
 set background=dark
 colorscheme gruvbox
@@ -70,7 +68,6 @@ set colorcolumn=80,120
 set foldmethod=syntax
 set foldcolumn=4
 match ErrorMsg '\s\+$'
-highlight CursorLine term=bold cterm=bold ctermbg=black
 
 "remember and open at the pos of the file when last time closed
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
