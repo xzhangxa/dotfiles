@@ -52,6 +52,7 @@ set splitbelow
 set splitright
 set scrolloff=5
 set jumpoptions=stack
+set mouse=
 
 "terminal
 tnoremap <Esc> <C-\><C-n>
