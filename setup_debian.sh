@@ -40,7 +40,6 @@ chmod +x ~/.local/bin/nvim
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 ~/.local/bin/nvim +PlugInstall +qall
-~/.local/bin/nvim +'LspInstall --sync clangd rust_analyzer' +qall
 cp $(dirname "$0")/init.vim ~/.config/nvim/init.vim
 python3 -m pip install --user neovim-remote
 

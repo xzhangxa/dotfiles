@@ -14,7 +14,8 @@ Plug 'preservim/nerdcommenter'
 Plug 'morhetz/gruvbox'
 " lsp
 Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/nvim-lsp-installer'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
 " fuzzy finder and many things else
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -127,14 +128,13 @@ nnoremap <leader>F :NERDTreeToggle<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:startify_session_persistence = 1
 
-"nvim-lspconfig
-"nvim-lsp-installer
 "nvim-cmp
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 lua << EOF
 local cmp = require'cmp'
 
 local has_words_before = function()
+  unpack = unpack or table.unpack
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
@@ -149,15 +149,11 @@ cmp.setup({
       vim.fn["vsnip#anonymous"](args.body)
     end,
   },
-  mapping = {
-    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-    ['<C-y>'] = cmp.config.disable,
-    ['<C-e>'] = cmp.mapping({
-      i = cmp.mapping.abort(),
-      c = cmp.mapping.close(),
-    }),
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Insert,
       select = false
@@ -180,7 +176,7 @@ cmp.setup({
         feedkey("<Plug>(vsnip-jump-prev)", "")
       end
     end, { "i", "s" }),
-  },
+  }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
@@ -189,8 +185,9 @@ cmp.setup({
   })
 })
 
--- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline('/', {
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline({'/', '?'}, {
+  mapping = cmp.mapping.preset.cmdline(),
   sources = {
     { name = 'buffer' }
   }
@@ -198,30 +195,40 @@ cmp.setup.cmdline('/', {
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {
+  -- mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
     { name = 'path' }
   }, {
     { name = 'cmdline' }
   })
 })
+EOF
 
--- Setup lspconfig.
-local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-local lsp_installer = require "nvim-lsp-installer"
+"nvim-lspconfig
+"mason
+"mason-lspconfig
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+lua << EOF
 
 local servers = {
   "clangd",
+  "neocmake",
   "rust_analyzer",
 }
 
+require("mason").setup()
+require("mason-lspconfig").setup { ensure_installed = servers, }
+
+local lspconfig = require("lspconfig")
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
 local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local opts = { noremap=true, silent=true }
-  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', '<leader>k', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<leader>n', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<leader>p', '<cmd>lua vim.lsp.buf.format({ async = true })<CR>', opts)
+  local opts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+  vim.keymap.set('n', '<leader>k', vim.lsp.buf.signature_help, opts)
+  vim.keymap.set('n', '<leader>n', vim.lsp.buf.rename, opts)
+  vim.keymap.set('n', '<leader>p', vim.lsp.buf.format, opts)
 
   if client.server_capabilities.document_highlight then
     vim.cmd [[
@@ -237,17 +244,11 @@ local on_attach = function(client, bufnr)
   end
 end
 
-for _, name in pairs(servers) do
-  local server_is_found, server = lsp_installer.get_server(name)
-  if server_is_found then
-    server:on_ready(function ()
-      local opts = {
-        capabilities = capabilities,
-        on_attach = on_attach,
-      }
-      server:setup(opts)
-    end)
-  end
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+  }
 end
 EOF
 set updatetime=2000
@@ -272,18 +273,20 @@ require("telescope").setup{
     },
   }
 }
+
+local builtin = require("telescope.builtin")
+vim.keymap.set('n', '<leader>f', function() builtin.find_files({ default_text = vim.fn.expand('%:~:.:h') }) end, {})
+vim.keymap.set('n', '<leader>w', function() builtin.grep_string({ word_match = "-w" }) end, {})
+vim.keymap.set('n', '<leader>s', builtin.grep_string, {})
+vim.keymap.set('n', '<leader>S', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>b', builtin.buffers, {})
+vim.keymap.set('n', '<leader>o', builtin.oldfiles, {})
+vim.keymap.set('n', '<leader>m', function() builtin.main_pages({ sections = { "ALL" } }) end, {})
+vim.keymap.set('n', '<leader>2', builtin.git_status, {})
+vim.keymap.set('n', '<leader>3', builtin.git_bcommits, {})
+vim.keymap.set('n', '<leader>4', builtin.git_commits, {})
+vim.keymap.set('n', '<leader>g', builtin.lsp_definitions, {})
+vim.keymap.set('n', '<leader>r', builtin.lsp_references, {})
+vim.keymap.set('n', '<leader>l', builtin.lsp_document_symbols, {})
+vim.keymap.set('n', '<leader>d', function() builtin.diagnostics({ bufnr = 0 }) end, {})
 EOF
-nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files({ default_text = vim.fn.expand('%:~:.:h') })<cr>
-nnoremap <leader>w <cmd>lua require('telescope.builtin').grep_string({ word_match = "-w" })<cr>
-nnoremap <leader>s <cmd>lua require('telescope.builtin').grep_string()<cr>
-nnoremap <leader>S <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>o <cmd>lua require('telescope.builtin').oldfiles()<cr>
-nnoremap <leader>m <cmd>lua require('telescope.builtin').man_pages({ sections = { "ALL" } })<cr>
-nnoremap <leader>2 <cmd>lua require('telescope.builtin').git_status()<cr>
-nnoremap <leader>3 <cmd>lua require('telescope.builtin').git_bcommits()<cr>
-nnoremap <leader>4 <cmd>lua require('telescope.builtin').git_commits()<cr>
-nnoremap <leader>g <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
-nnoremap <leader>r <cmd>lua require('telescope.builtin').lsp_references()<cr>
-nnoremap <leader>l <cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>
-nnoremap <leader>d <cmd>lua require('telescope.builtin').diagnostics({ bufnr = 0 })<cr>
