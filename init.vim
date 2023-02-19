@@ -67,8 +67,6 @@ set background=dark
 colorscheme gruvbox
 set cursorline
 set colorcolumn=80,120
-set foldmethod=syntax
-set foldcolumn=4
 match ErrorMsg '\s\+$'
 
 "remember and open at the pos of the file when last time closed
@@ -98,7 +96,6 @@ endfunction
 set tabstop=8 expandtab shiftwidth=4 softtabstop=4
 "autocmd FileType c setlocal tabstop=8 noexpandtab shiftwidth=8 softtabstop=8
 "autocmd FileType cpp setlocal tabstop=8 noexpandtab shiftwidth=8 softtabstop=8
-autocmd FileType python setlocal foldmethod=indent foldignore=
 autocmd FileType dts setlocal foldmethod=indent foldignore=
 
 "plugin setting
@@ -290,3 +287,20 @@ vim.keymap.set('n', '<leader>r', builtin.lsp_references, {})
 vim.keymap.set('n', '<leader>l', builtin.lsp_document_symbols, {})
 vim.keymap.set('n', '<leader>d', function() builtin.diagnostics({ bufnr = 0 }) end, {})
 EOF
+
+"nvim-treesitter
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = {
+    "c", "cpp", "rust", "python", "cuda",
+    "toml", "yaml", "json", "markdown", "dockerfile",
+    "make", "cmake", "bash",
+    "lua", "vim", "help"
+  },
+  highlight = { enable = true, },
+}
+EOF
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+set foldcolumn=4
