@@ -12,7 +12,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 
 echo "=== Copy config files ==="
 mkdir -p ~/.config/nvim
-head -50 $(dirname "$0")/init.vim > ~/.config/nvim/init.vim
+head -50 $(dirname "$0")/init.lua > ~/.config/nvim/init.lua
 cp $(dirname "$0")/zshrc ~/.zshrc
 cp $(dirname "$0")/p10k.zsh ~/.p10k.zsh
 cp $(dirname "$0")/tmux.conf ~/.tmux.conf
@@ -26,7 +26,7 @@ echo "=== Setup neovim, vim-plug and plugins ==="
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 nvim +PlugInstall +qall
-cp $(dirname "$0")/init.vim ~/.config/nvim/init.vim
+cp $(dirname "$0")/init.lua ~/.config/nvim/init.lua
 python3 -m pip install --user neovim-remote
 
 echo "=== Setup rust and tools from cargo ==="

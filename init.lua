@@ -1,89 +1,101 @@
-" set vim-plug
-call plug#begin()
+-- set vim-plug
+-------------------------------------------------------------------------------
+local Plug = vim.fn['plug#']
+vim.call('plug#begin', '~/.local/share/nvim/plugged')
+-- git mark shower
+Plug('airblade/vim-gitgutter')
+-- status line
+Plug('vim-airline/vim-airline')
+Plug('vim-airline/vim-airline-themes')
+-- auto close quotes, brackets
+Plug('windwp/nvim-autopairs')
+-- comments shortcuts
+Plug('preservim/nerdcommenter')
+-- gruvbox colorscheme
+Plug('morhetz/gruvbox')
+-- lsp
+Plug('neovim/nvim-lspconfig')
+Plug('williamboman/mason.nvim')
+Plug('williamboman/mason-lspconfig.nvim')
+-- fuzzy finder and many things else
+Plug('nvim-lua/plenary.nvim')
+Plug('nvim-telescope/telescope.nvim')
+Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
+-- completer, snippets
+Plug('hrsh7th/nvim-cmp')
+Plug('hrsh7th/cmp-nvim-lsp')
+Plug('hrsh7th/cmp-vsnip')
+Plug('hrsh7th/vim-vsnip')
+-- Folder navigation
+Plug('preservim/nerdtree')
+-- session
+Plug('mhinz/vim-startify')
+-- icons
+Plug('ryanoasis/vim-devicons')
+Plug('tiagofumo/vim-nerdtree-syntax-highlight')
+vim.call('plug#end')
 
-" git mark shower
-Plug 'airblade/vim-gitgutter'
-" status line
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-" auto close quotes, brackets
-Plug 'windwp/nvim-autopairs'
-" comments shortcuts
-Plug 'preservim/nerdcommenter'
-" gruvbox colorscheme
-Plug 'morhetz/gruvbox'
-" lsp
-Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/mason.nvim'
-Plug 'williamboman/mason-lspconfig.nvim'
-" fuzzy finder and many things else
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-" completer, snippets
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-vsnip'
-Plug 'hrsh7th/vim-vsnip'
-" Folder navigation
-Plug 'preservim/nerdtree'
-" session
-Plug 'mhinz/vim-startify'
-" icons
-Plug 'ryanoasis/vim-devicons'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+-- neovim basic/misc. settings
+-------------------------------------------------------------------------------
+vim.cmd('filetype plugin indent on')
+vim.opt.clipboard:append { 'unnamedplus' }
+vim.opt.jumpoptions = 'stack'
+vim.g.mapleader = " "
 
-call plug#end()
+-- indent
+vim.opt.smartindent = true
+vim.opt.autoindent = true
+vim.opt.backspace = { 'indent', 'eol', 'start' }
+vim.opt.tabstop = 8
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
 
-filetype plugin indent on
+-- search
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.incsearch = true
+vim.opt.hlsearch = true
+-- set very magic for regular expression
+vim.keymap.set('n', '/', '/\\v', {})
+vim.keymap.set('n', '?', '?\\v', {})
+vim.keymap.set('c', 's/', 's/\\v', {})
+-- search visual selected word
+vim.keymap.set('v', '/', 'y/<C-r>"<CR>', {})
+vim.keymap.set('v', '?', 'y?<C-r>"<CR>', {})
 
-set laststatus=2
-set number
-set ruler
-set showcmd
-set smartindent
-set autoindent
-set backspace=indent,eol,start
-set ignorecase
-set smartcase
-set incsearch
-set hlsearch
-set clipboard+=unnamedplus
-set splitbelow
-set splitright
-set scrolloff=5
-set jumpoptions=stack
-set mouse=
+-- terminal
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', {})
+vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>', {})
+vim.keymap.set('n', 'T', ':split | terminal<CR>i', {})
 
-"terminal
-tnoremap <Esc> <C-\><C-n>
-tnoremap <C-w> <C-\><C-n><C-w>
-nnoremap T :split \| terminal<CR>i
+-- ui, color, etc.
+vim.opt.termguicolors = true
+vim.opt.background = 'dark'
+vim.cmd.colorscheme('gruvbox')
+vim.opt.cursorline = true
+vim.opt.colorcolumn = { '80', '120' }
+vim.opt.mouse = ''
+vim.opt.completeopt = { 'menuone', 'noselect' }
+vim.opt.laststatus = 2
+vim.opt.number = true
+vim.opt.ruler = true
+vim.opt.showcmd = true
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+vim.opt.scrolloff = 5
+vim.cmd([[
+  syntax enable
+  match ErrorMsg "\\s\\+$"
+]])
 
-"ui, color, font, etc.
-syntax enable
-set termguicolors
-set background=dark
-colorscheme gruvbox
-set cursorline
-set colorcolumn=80,120
-match ErrorMsg '\s\+$'
+-- remember and open at the pos of the file when last time closed
+vim.cmd([[
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
+]])
 
-"remember and open at the pos of the file when last time closed
-autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
-
-set completeopt=menuone,noselect
-
-"set very magic for regular expression
-nnoremap / /\v
-vnoremap / y/<C-r>"<CR>
-nnoremap ? ?\v
-vnoremap ? y?<C-r>"<CR>
-cnoremap s/ s/\v
-
-let mapleader = " "
-
-"setup quickfix window size
+-- setup quickfix window size
+vim.cmd([[
 augroup qfwin
     autocmd!
     autocmd FileType qf call AdjustWindowHeight(3, 20)
@@ -91,44 +103,35 @@ augroup END
 function! AdjustWindowHeight(minheight, maxheight)
     execute max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
 endfunction
+]])
 
-"per language
-set tabstop=8 expandtab shiftwidth=4 softtabstop=4
-"autocmd FileType c setlocal tabstop=8 noexpandtab shiftwidth=8 softtabstop=8
-"autocmd FileType cpp setlocal tabstop=8 noexpandtab shiftwidth=8 softtabstop=8
-autocmd FileType dts setlocal foldmethod=indent foldignore=
+-- per language
+-- autocmd FileType c setlocal noexpandtab shiftwidth=8 softtabstop=8
+vim.cmd([[
+  autocmd FileType dts setlocal foldmethod=indent foldignore=
+]])
 
-"plugin setting
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+-- airline
+-------------------------------------------------------------------------------
+vim.g['airline_powerline_fonts'] = 1
+vim.g['airline_theme'] = 'base16_gruvbox_dark_hard'
+vim.g['airline#extensions#tabline#enabled'] = 1
 
-"airline
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:airline_powerline_fonts = 1
-let g:airline_theme = 'base16_gruvbox_dark_hard'
-let g:airline#extensions#tabline#enabled = 1
+-- vim-gitgutter
+-------------------------------------------------------------------------------
+vim.keymap.set('n', '<leader>1', ':GitGutterDiffOrig<cr>', {})
 
-"UltiSnips
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:UltiSnipsExpandTrigger = "<c-j>"
-let g:UltiSnipsJumpForwardTrigger = "<c-j>"
-let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
+-- nerdtree
+-------------------------------------------------------------------------------
+vim.keymap.set('n', '<leader>F', ':NERDTreeToggle<cr>', {})
 
-"vim-gitgutter
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <leader>1 :GitGutterDiffOrig<CR>
+-- startify
+-------------------------------------------------------------------------------
+vim.g['startify_session_persistence'] = 1
 
-"nerdtree
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <leader>F :NERDTreeToggle<CR>
-
-"startify
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:startify_session_persistence = 1
-
-"nvim-cmp
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-lua << EOF
-local cmp = require'cmp'
+-- nvim-cmp
+-------------------------------------------------------------------------------
+local cmp = require('cmp')
 
 local has_words_before = function()
   unpack = unpack or table.unpack
@@ -199,14 +202,11 @@ cmp.setup.cmdline(':', {
     { name = 'cmdline' }
   })
 })
-EOF
 
-"nvim-lspconfig
-"mason
-"mason-lspconfig
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-lua << EOF
-
+-- nvim-lspconfig
+-- mason
+-- mason-lspconfig
+-------------------------------------------------------------------------------
 local servers = {
   "clangd",
   "neocmake",
@@ -228,7 +228,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>p', vim.lsp.buf.format, opts)
 
   if client.server_capabilities.document_highlight then
-    vim.cmd [[
+    vim.cmd([[
       hi LspReferenceRead cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828
       hi LspReferenceText cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828
       hi LspReferenceWrite cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828
@@ -237,7 +237,7 @@ local on_attach = function(client, bufnr)
         autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
         autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
       augroup END
-    ]]
+    ]])
   end
 end
 
@@ -247,20 +247,16 @@ for _, lsp in ipairs(servers) do
     on_attach = on_attach,
   }
 end
-EOF
-set updatetime=2000
+vim.opt.updatetime = 2000
 
-"nvim-autopairs
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-lua << EOF
+-- nvim-autopairs
+-------------------------------------------------------------------------------
 require('nvim-autopairs').setup{}
-EOF
 
-"nvim-telescope
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-lua << EOF
+-- nvim-telescope
+-------------------------------------------------------------------------------
 local actions = require("telescope.actions")
-require("telescope").setup{
+require("telescope").setup {
   defaults = {
     dynamic_preview_title = true,
     mappings = {
@@ -286,11 +282,9 @@ vim.keymap.set('n', '<leader>g', builtin.lsp_definitions, {})
 vim.keymap.set('n', '<leader>r', builtin.lsp_references, {})
 vim.keymap.set('n', '<leader>l', builtin.lsp_document_symbols, {})
 vim.keymap.set('n', '<leader>d', function() builtin.diagnostics({ bufnr = 0 }) end, {})
-EOF
 
-"nvim-treesitter
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-lua << EOF
+-- nvim-treesitter
+-------------------------------------------------------------------------------
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
     "c", "cpp", "rust", "python", "cuda",
@@ -300,7 +294,6 @@ require'nvim-treesitter.configs'.setup {
   },
   highlight = { enable = true, },
 }
-EOF
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
-set foldcolumn=4
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.foldcolumn = '4'
