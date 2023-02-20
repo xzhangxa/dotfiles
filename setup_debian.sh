@@ -4,7 +4,7 @@ echo "=== Install necessary packages ==="
 sudo -E apt-get update
 sudo -E apt-get install -y \
             aptitude openssh-server git tmux zsh htop curl wget rsync socat ranger trash-cli xclip \
-            build-essential gdb cmake cmake-curses-gui clang-format cloc python3-pip \
+            build-essential gdb cmake cmake-curses-gui clang-format cloc unzip python3-pip \
             libfuse2 command-not-found lsb-release
 
 sudo apt-file update && sudo update-command-not-found
