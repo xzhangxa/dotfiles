@@ -225,7 +225,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
   vim.keymap.set('n', '<leader>k', vim.lsp.buf.signature_help, opts)
   vim.keymap.set('n', '<leader>n', vim.lsp.buf.rename, opts)
-  vim.keymap.set('n', '<leader>p', vim.lsp.buf.format, opts)
+  vim.keymap.set({'n', 'v'}, '<leader>5', vim.lsp.buf.format, opts)
 
   if client.server_capabilities.document_highlight then
     vim.cmd([[
