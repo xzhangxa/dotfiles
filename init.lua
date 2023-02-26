@@ -226,6 +226,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>k', vim.lsp.buf.signature_help, opts)
   vim.keymap.set('n', '<leader>n', vim.lsp.buf.rename, opts)
   vim.keymap.set({'n', 'v'}, '<leader>5', vim.lsp.buf.format, opts)
+  vim.keymap.set('n', '<leader>do', vim.diagnostic.open_float, opts)
 
   if client.server_capabilities.document_highlight then
     vim.cmd([[
@@ -281,7 +282,7 @@ vim.keymap.set('n', '<leader>4', builtin.git_commits, {})
 vim.keymap.set('n', '<leader>g', builtin.lsp_definitions, {})
 vim.keymap.set('n', '<leader>r', builtin.lsp_references, {})
 vim.keymap.set('n', '<leader>l', builtin.lsp_document_symbols, {})
-vim.keymap.set('n', '<leader>d', function() builtin.diagnostics({ bufnr = 0 }) end, {})
+vim.keymap.set('n', '<leader>dl', function() builtin.diagnostics({ bufnr = 0 }) end, {})
 
 -- nvim-treesitter
 -------------------------------------------------------------------------------
