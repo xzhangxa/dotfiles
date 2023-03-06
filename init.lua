@@ -22,8 +22,11 @@ Plug('nvim-lua/plenary.nvim')
 Plug('nvim-telescope/telescope.nvim')
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
 -- completer, snippets
-Plug('hrsh7th/nvim-cmp')
 Plug('hrsh7th/cmp-nvim-lsp')
+Plug('hrsh7th/cmp-buffer')
+Plug('hrsh7th/cmp-path')
+Plug('hrsh7th/cmp-cmdline')
+Plug('hrsh7th/nvim-cmp')
 Plug('hrsh7th/cmp-vsnip')
 Plug('hrsh7th/vim-vsnip')
 -- Folder navigation
@@ -86,7 +89,7 @@ vim.opt.splitright = true
 vim.opt.scrolloff = 5
 vim.cmd([[
   syntax enable
-  match ErrorMsg "\\s\\+$"
+  match ErrorMsg "\s\+$"
 ]])
 
 -- remember and open at the pos of the file when last time closed
