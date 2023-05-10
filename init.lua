@@ -1,18 +1,23 @@
+-- disable netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- set vim-plug
 -------------------------------------------------------------------------------
 local Plug = vim.fn['plug#']
 vim.call('plug#begin', '~/.local/share/nvim/plugged')
--- git mark shower
-Plug('airblade/vim-gitgutter')
--- status line
+-- ui
+Plug('morhetz/gruvbox')
+Plug('nvim-tree/nvim-web-devicons')
+Plug('akinsho/bufferline.nvim', {['tag'] = '*'})
 Plug('vim-airline/vim-airline')
 Plug('vim-airline/vim-airline-themes')
+-- git mark shower
+Plug('airblade/vim-gitgutter')
 -- auto close quotes, brackets
 Plug('windwp/nvim-autopairs')
 -- comments shortcuts
 Plug('preservim/nerdcommenter')
--- gruvbox colorscheme
-Plug('morhetz/gruvbox')
 -- lsp
 Plug('neovim/nvim-lspconfig')
 Plug('williamboman/mason.nvim')
@@ -30,12 +35,9 @@ Plug('hrsh7th/nvim-cmp')
 Plug('hrsh7th/cmp-vsnip')
 Plug('hrsh7th/vim-vsnip')
 -- Folder navigation
-Plug('preservim/nerdtree')
+Plug('nvim-tree/nvim-tree.lua')
 -- session
 Plug('mhinz/vim-startify')
--- icons
-Plug('ryanoasis/vim-devicons')
-Plug('tiagofumo/vim-nerdtree-syntax-highlight')
 vim.call('plug#end')
 
 -- neovim basic/misc. settings
@@ -78,7 +80,6 @@ vim.opt.background = 'dark'
 vim.cmd.colorscheme('gruvbox')
 vim.opt.cursorline = true
 vim.opt.colorcolumn = { '80', '120' }
-vim.opt.mouse = ''
 vim.opt.completeopt = { 'menuone', 'noselect' }
 vim.opt.laststatus = 2
 vim.opt.number = true
@@ -118,15 +119,16 @@ vim.cmd([[
 -------------------------------------------------------------------------------
 vim.g['airline_powerline_fonts'] = 1
 vim.g['airline_theme'] = 'base16_gruvbox_dark_hard'
-vim.g['airline#extensions#tabline#enabled'] = 1
+vim.g['airline#extensions#tabline#enabled'] = 0
 
 -- vim-gitgutter
 -------------------------------------------------------------------------------
 vim.keymap.set('n', '<leader>1', ':GitGutterDiffOrig<cr>', {})
 
--- nerdtree
+-- nvim-tree
 -------------------------------------------------------------------------------
-vim.keymap.set('n', '<leader>F', ':NERDTreeToggle<cr>', {})
+require("nvim-tree").setup()
+vim.keymap.set('n', '<leader>F', ':NvimTreeToggle<cr>', {})
 
 -- startify
 -------------------------------------------------------------------------------
@@ -301,3 +303,16 @@ require'nvim-treesitter.configs'.setup {
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.opt.foldcolumn = '4'
+
+-- bufferline
+-------------------------------------------------------------------------------
+require("bufferline").setup {
+  options = {
+    numbers = "buffer_id",
+    separator_style = "thick",
+    indicator = {
+      icon = '▎',
+      style = 'icon',
+    },
+  }
+}
