@@ -296,7 +296,7 @@ require'nvim-treesitter.configs'.setup {
     "c", "cpp", "rust", "python", "cuda",
     "toml", "yaml", "json", "markdown", "dockerfile",
     "make", "cmake", "bash",
-    "lua", "vim", "help"
+    "lua", "vim", "vimdoc"
   },
   highlight = { enable = true, },
 }
