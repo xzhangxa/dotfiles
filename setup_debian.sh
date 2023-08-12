@@ -7,9 +7,9 @@ sudo -E apt-get update
 sudo -E apt-get install -y \
             aptitude openssh-server git tmux zsh htop curl wget rsync socat ranger trash-cli xclip \
             build-essential gdb cmake cmake-curses-gui clang-format cloc unzip \
-            libfuse2 command-not-found lsb-release
+            fuse3 command-not-found lsb-release
 
-sudo apt-file update && sudo update-command-not-found
+sudo -E apt-file update && sudo -E update-command-not-found
 
 echo "=== Setup GDB ==="
 wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -O ~/.gdbinit
