@@ -128,7 +128,26 @@ vim.keymap.set('n', '<leader>1', ':GitGutterDiffOrig<cr>', {})
 -- nvim-tree
 -------------------------------------------------------------------------------
 require("nvim-tree").setup()
-vim.keymap.set('n', '<leader>F', ':NvimTreeToggle<cr>', {})
+vim.keymap.set('n', '<leader>F', ':NvimTreeFindFile!<cr>', {})
+local function open_nvim_tree(data)
+  -- buffer is a real file on the disk
+  local real_file = vim.fn.filereadable(data.file) == 1
+  -- buffer is a [No Name]
+  local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
+  if not real_file and not no_name then
+    return
+  end
+  -- change to file's directory if it's not under cwd
+  local file_dir = vim.fn.fnamemodify(data.file, ':p:h')
+  local cwd = vim.fn.getcwd()
+  if not string.find(file_dir, cwd, 1, true) then
+    vim.cmd.cd(file_dir)
+  end
+  -- open the tree, find the file but don't focus it
+  require("nvim-tree.api").tree.toggle({ focus = false, find_file = true, })
+end
+-- Open nvim-tree when open nvim using the function above
+vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
 -- startify
 -------------------------------------------------------------------------------
