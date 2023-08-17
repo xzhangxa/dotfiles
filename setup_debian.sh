@@ -5,7 +5,7 @@ set -e
 echo "=== Install necessary packages ==="
 sudo -E apt-get update
 sudo -E apt-get install -y \
-            aptitude openssh-server git tmux zsh htop curl wget rsync socat ranger trash-cli xclip \
+            aptitude openssh-server git tmux zsh htop curl wget rsync socat ranger trash-cli wl-clipboard \
             build-essential gdb cmake cmake-curses-gui clang-format cloc unzip \
             fuse3 command-not-found lsb-release
 

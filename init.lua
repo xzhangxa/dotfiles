@@ -43,7 +43,7 @@ vim.call('plug#end')
 -- neovim basic/misc. settings
 -------------------------------------------------------------------------------
 vim.cmd('filetype plugin indent on')
-vim.opt.clipboard:append { 'unnamedplus' }
+vim.opt.clipboard = 'unnamedplus'
 vim.opt.jumpoptions = 'stack'
 vim.g.mapleader = " "
 
