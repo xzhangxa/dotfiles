@@ -5,9 +5,11 @@ set -e
 echo "=== Install necessary packages ==="
 sudo -E apt-get update
 sudo -E apt-get install -y \
-            aptitude openssh-server git tmux zsh htop curl wget rsync socat ranger trash-cli wl-clipboard \
-            build-essential gdb cmake cmake-curses-gui clang-format cloc unzip \
-            fuse3 command-not-found lsb-release
+            aptitude apt-file \
+            curl wget rsync socat ranger trash-cli wl-clipboard \
+            openssh-server git tmux zsh htop unzip \
+            build-essential gdb cmake cmake-curses-gui clang-format cloc \
+            fuse3 libfuse2 command-not-found lsb-release
 
 sudo -E apt-file update && sudo -E update-command-not-found
 
@@ -17,6 +19,9 @@ mkdir -p ~/.gdbinit.d
 cp $(dirname "$0")/gdb_dashboard ~/.gdbinit.d/dashboard
 
 echo "=== Setup oh-my-zsh ==="
+if [ -d ~/.oh-my-zsh ]; then
+    rm -rf ~/.oh-my-zsh
+fi
 sh -c "CHSH=no RUNZSH=no $(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
 if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
@@ -37,6 +42,9 @@ cp ./dgdb ~/.local/bin
 cp ./git-proxy ~/.local/bin
 
 echo "=== Setup fzf ==="
+if [ -d ~/.fzf ]; then
+    rm -rf ~/.fzf
+fi
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --all
 
@@ -54,5 +62,5 @@ sh ./sh.rustup.rs -y --no-modify-path && rm ./sh.rustup.rs
 source ~/.cargo/env
 cargo install ripgrep bat exa fd-find
 
-echo "remember to relogin."
+echo "remember to re-login."
 echo "Bye Bye."
