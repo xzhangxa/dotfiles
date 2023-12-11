@@ -111,10 +111,10 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias rm='trash-put'
-alias ls='exa'
-alias l='exa'
-alias ll='exa -l'
-alias la='exa -a'
+alias ls='eza'
+alias l='eza'
+alias ll='eza -l'
+alias la='eza -a'
 alias grep='grep -iIn --exclude=tags --exclude-dir={.git,.idea,.vscode} --color=auto'
 alias rg='rg --column --no-heading --smart-case --color=always'
 alias v='nvim'

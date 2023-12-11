@@ -60,7 +60,7 @@ echo "=== Setup rust and tools from cargo ==="
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > sh.rustup.rs
 sh ./sh.rustup.rs -y --no-modify-path && rm ./sh.rustup.rs
 source ~/.cargo/env
-cargo install ripgrep bat exa fd-find
+cargo install ripgrep bat eza fd-find
 
 echo "remember to re-login."
 echo "Bye Bye."
