@@ -6,12 +6,15 @@ echo "=== Install necessary packages ==="
 sudo -E apt-get update
 sudo -E apt-get install -y \
             aptitude apt-file \
-            curl wget rsync socat ranger trash-cli wl-clipboard \
+            curl wget rsync socat ranger trash-cli \
             openssh-server git tmux zsh htop unzip \
             build-essential gdb cmake cmake-curses-gui clang-format cloc \
             fuse3 libfuse2 command-not-found lsb-release
 
-sudo -E apt-file update && sudo -E update-command-not-found
+# Install this only on desktop with wayland
+# sudo -E apt-get install -y wl-clipboard
+
+sudo -E apt-file update
 
 echo "=== Setup GDB ==="
 wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -O ~/.gdbinit
