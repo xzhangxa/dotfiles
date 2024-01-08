@@ -1,51 +1,71 @@
--- disable netrw
+-- disable netrw for nvim-tree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
--- set vim-plug
--------------------------------------------------------------------------------
-local Plug = vim.fn['plug#']
-vim.call('plug#begin', '~/.local/share/nvim/plugged')
--- ui
-Plug('morhetz/gruvbox')
-Plug('nvim-tree/nvim-web-devicons')
-Plug('akinsho/bufferline.nvim', {['tag'] = '*'})
-Plug('vim-airline/vim-airline')
-Plug('vim-airline/vim-airline-themes')
--- git mark shower
-Plug('airblade/vim-gitgutter')
--- auto close quotes, brackets
-Plug('windwp/nvim-autopairs')
--- comments shortcuts
-Plug('preservim/nerdcommenter')
--- lsp
-Plug('neovim/nvim-lspconfig')
-Plug('williamboman/mason.nvim')
-Plug('williamboman/mason-lspconfig.nvim')
--- fuzzy finder and many things else
-Plug('nvim-lua/plenary.nvim')
-Plug('nvim-telescope/telescope.nvim')
-Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
--- completer, snippets
-Plug('hrsh7th/cmp-nvim-lsp')
-Plug('hrsh7th/cmp-buffer')
-Plug('hrsh7th/cmp-path')
-Plug('hrsh7th/cmp-cmdline')
-Plug('hrsh7th/nvim-cmp')
-Plug('hrsh7th/cmp-vsnip')
-Plug('hrsh7th/vim-vsnip')
--- Folder navigation
-Plug('nvim-tree/nvim-tree.lua')
--- session
-Plug('mhinz/vim-startify')
-vim.call('plug#end')
+vim.g.mapleader = " "
+
+-- bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup({
+  "morhetz/gruvbox",
+  {
+    "akinsho/bufferline.nvim",
+    version = "*",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
+  -- git mark shower
+  "airblade/vim-gitgutter",
+  -- auto close quotes, brackets
+  "windwp/nvim-autopairs",
+  -- comments shortcuts
+  "preservim/nerdcommenter",
+  -- lsp
+  "neovim/nvim-lspconfig",
+  "williamboman/mason.nvim",
+  "williamboman/mason-lspconfig.nvim",
+  -- fuzzy finder and many things else
+  "nvim-lua/plenary.nvim",
+  "nvim-telescope/telescope.nvim",
+  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+  -- completer, snippets
+  { "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+      "hrsh7th/cmp-vsnip",
+      "hrsh7th/vim-vsnip",
+    },
+  },
+  -- folder navigation
+  "nvim-tree/nvim-tree.lua",
+  -- session
+  "mhinz/vim-startify",
+})
 
 -- neovim basic/misc. settings
 -------------------------------------------------------------------------------
 vim.cmd('filetype plugin indent on')
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.jumpoptions = 'stack'
-vim.g.mapleader = " "
 
 -- indent
 vim.opt.smartindent = true
@@ -115,11 +135,11 @@ vim.cmd([[
   autocmd FileType dts setlocal foldmethod=indent foldignore=
 ]])
 
--- airline
+-- lualine
 -------------------------------------------------------------------------------
-vim.g['airline_powerline_fonts'] = 1
-vim.g['airline_theme'] = 'base16_gruvbox_dark_hard'
-vim.g['airline#extensions#tabline#enabled'] = 0
+require('lualine').setup {
+    options = { theme = 'gruvbox' },
+}
 
 -- vim-gitgutter
 -------------------------------------------------------------------------------

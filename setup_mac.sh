@@ -21,7 +21,7 @@ fi
 
 echo "=== Copy config files ==="
 mkdir -p ~/.config/nvim
-head -50 $(dirname "$0")/init.lua > ~/.config/nvim/init.lua
+cp $(dirname "$0")/init.lua ~/.config/nvim/init.lua
 cp $(dirname "$0")/zshrc ~/.zshrc
 cp $(dirname "$0")/p10k.zsh ~/.p10k.zsh
 cp $(dirname "$0")/tmux.conf ~/.tmux.conf
@@ -33,12 +33,6 @@ if [ -d ~/.fzf ]; then
 fi
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --all
-
-echo "=== Setup neovim, vim-plug and plugins ==="
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-nvim +PlugInstall +qall
-cp $(dirname "$0")/init.lua ~/.config/nvim/init.lua
 
 echo "=== Setup rust and tools from cargo ==="
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > sh.rustup.rs
