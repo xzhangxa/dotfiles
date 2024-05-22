@@ -19,7 +19,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  "morhetz/gruvbox",
+  { "ellisonleao/gruvbox.nvim", priority = 1000 , config = true },
   {
     "akinsho/bufferline.nvim",
     version = "*",
