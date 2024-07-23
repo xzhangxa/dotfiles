@@ -31,6 +31,15 @@ require("lazy").setup({
   },
   -- git mark shower
   "airblade/vim-gitgutter",
+  -- git graph
+  {
+    "rbong/vim-flog",
+    lazy = true,
+    cmd = { "Flog", "Flogsplit", "Floggit" },
+    dependencies = {
+      "tpope/vim-fugitive",
+    },
+  },
   -- auto close quotes, brackets
   "windwp/nvim-autopairs",
   -- comments shortcuts
@@ -321,8 +330,6 @@ vim.keymap.set('n', '<leader>b', builtin.buffers, {})
 vim.keymap.set('n', '<leader>o', builtin.oldfiles, {})
 vim.keymap.set('n', '<leader>m', function() builtin.main_pages({ sections = { "ALL" } }) end, {})
 vim.keymap.set('n', '<leader>2', builtin.git_status, {})
-vim.keymap.set('n', '<leader>3', builtin.git_bcommits, {})
-vim.keymap.set('n', '<leader>4', builtin.git_commits, {})
 vim.keymap.set('n', '<leader>g', builtin.lsp_definitions, {})
 vim.keymap.set('n', '<leader>r', builtin.lsp_references, {})
 vim.keymap.set('n', '<leader>l', builtin.lsp_document_symbols, {})
@@ -363,3 +370,7 @@ require("bufferline").setup {
     },
   }
 }
+
+-- vim-flog
+-------------------------------------------------------------------------------
+vim.keymap.set('n', '<leader>3', ':Flog<cr>', {})
