@@ -16,6 +16,9 @@ sudo -E apt-get install -y \
 
 sudo -E apt-file update
 
+mkdir /tmp/zx_setup
+cd /tmp/zx_setup
+
 echo "=== Setup GDB ==="
 wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -O ~/.gdbinit
 mkdir -p ~/.gdbinit.d
@@ -35,7 +38,9 @@ fi
 
 echo "=== Copy config files ==="
 mkdir -p ~/.config/nvim
+mkdir -p ~/.config/lazygit
 cp $(dirname "$0")/init.lua ~/.config/nvim/init.lua
+cp $(dirname "$0")/lazygit.yml ~/.config/lazygit/config.yml
 cp $(dirname "$0")/zshrc ~/.zshrc
 cp $(dirname "$0")/p10k.zsh ~/.p10k.zsh
 cp $(dirname "$0")/tmux.conf ~/.tmux.conf
@@ -55,9 +60,15 @@ echo "=== Setup neovim, vim-plug and plugins ==="
 wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage -O ~/.local/bin/nvim
 chmod +x ~/.local/bin/nvim
 
+echo "=== Setup lazygit ==="
+LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+tar xf lazygit.tar.gz lazygit
+mv lazygit ~/.local/bin
+
 echo "=== Setup rust and tools from cargo ==="
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > sh.rustup.rs
-sh ./sh.rustup.rs -y --no-modify-path && rm ./sh.rustup.rs
+sh ./sh.rustup.rs -y --no-modify-path
 source ~/.cargo/env
 cargo install ripgrep bat eza fd-find
 

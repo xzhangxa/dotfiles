@@ -76,7 +76,6 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    git
     extract
     command-not-found
     colored-man-pages
@@ -115,7 +114,7 @@ alias ls='eza'
 alias l='eza'
 alias ll='eza -l'
 alias la='eza -a'
-alias grep='grep -iIn --exclude=tags --exclude-dir={.git,.idea,.vscode} --color=auto'
+#alias grep='grep -iIn --exclude=tags --exclude-dir={.git,.idea,.vscode} --color=auto'
 alias rg='rg --column --no-heading --smart-case --color=always'
 alias v='nvim'
 alias vi='nvim'
