@@ -2,6 +2,8 @@
 
 set -e
 
+SRC_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+
 echo "=== Install necessary packages ==="
 sudo -E apt-get update
 sudo -E apt-get install -y \
@@ -16,13 +18,13 @@ sudo -E apt-get install -y \
 
 sudo -E apt-file update
 
-mkdir /tmp/zx_setup
+mkdir -p /tmp/zx_setup
 cd /tmp/zx_setup
 
 echo "=== Setup GDB ==="
 wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -O ~/.gdbinit
 mkdir -p ~/.gdbinit.d
-cp $(dirname "$0")/gdb_dashboard ~/.gdbinit.d/dashboard
+cp "$SRC_DIR"/gdb_dashboard ~/.gdbinit.d/dashboard
 
 echo "=== Setup oh-my-zsh ==="
 if [ -d ~/.oh-my-zsh ]; then
@@ -39,15 +41,15 @@ fi
 echo "=== Copy config files ==="
 mkdir -p ~/.config/nvim
 mkdir -p ~/.config/lazygit
-cp $(dirname "$0")/init.lua ~/.config/nvim/init.lua
-cp $(dirname "$0")/lazygit.yml ~/.config/lazygit/config.yml
-cp $(dirname "$0")/zshrc ~/.zshrc
-cp $(dirname "$0")/p10k.zsh ~/.p10k.zsh
-cp $(dirname "$0")/tmux.conf ~/.tmux.conf
-cp $(dirname "$0")/gitconfig ~/.gitconfig
+cp "$SRC_DIR"/init.lua ~/.config/nvim/init.lua
+cp "$SRC_DIR"/lazygit.yml ~/.config/lazygit/config.yml
+cp "$SRC_DIR"/zshrc ~/.zshrc
+cp "$SRC_DIR"/p10k.zsh ~/.p10k.zsh
+cp "$SRC_DIR"/tmux.conf ~/.tmux.conf
+cp "$SRC_DIR"/gitconfig ~/.gitconfig
 mkdir -p ~/.local/bin
-cp ./dgdb ~/.local/bin
-cp ./git-proxy ~/.local/bin
+cp "$SRC_DIR"/dgdb ~/.local/bin
+cp "$SRC_DIR"/git-proxy ~/.local/bin
 
 echo "=== Setup fzf ==="
 if [ -d ~/.fzf ]; then
