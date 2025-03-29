@@ -115,6 +115,18 @@ vim.cmd([[
   match ErrorMsg "\s\+$"
 ]])
 
+-- lsp, diagnostic
+vim.keymap.set('n', '<leader>n', vim.lsp.buf.rename)
+vim.keymap.set({'n', 'v'}, '<leader>5', vim.lsp.buf.format)
+-- neovim default: <C-S> in Insert and Select mode maps to vim.lsp.buf.signature_help()
+-- neovim default: K in Normal mode maps to vim.lsp.buf.hover()
+
+vim.diagnostic.config({
+  virtual_lines = {
+    current_line = true,
+  },
+})
+
 -- remember and open at the pos of the file when last time closed
 vim.cmd([[
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
@@ -265,38 +277,11 @@ require("mason").setup()
 require("mason-lspconfig").setup { ensure_installed = servers, }
 
 local lspconfig = require("lspconfig")
-
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-local on_attach = function(client, bufnr)
-  local opts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-  vim.keymap.set('n', '<leader>k', vim.lsp.buf.signature_help, opts)
-  vim.keymap.set('n', '<leader>n', vim.lsp.buf.rename, opts)
-  vim.keymap.set({'n', 'v'}, '<leader>5', vim.lsp.buf.format, opts)
-  vim.keymap.set('n', '<leader>do', vim.diagnostic.open_float, opts)
-
-  if client.server_capabilities.document_highlight then
-    vim.cmd([[
-      hi LspReferenceRead cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828
-      hi LspReferenceText cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828
-      hi LspReferenceWrite cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]])
-  end
-end
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    capabilities = capabilities,
-    on_attach = on_attach,
-  }
+  lspconfig[lsp].setup({ capabilities = capabilities })
 end
-vim.opt.updatetime = 2000
 
 -- nvim-autopairs
 -------------------------------------------------------------------------------
