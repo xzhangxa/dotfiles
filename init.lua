@@ -271,6 +271,7 @@ local servers = {
   "clangd",
   "neocmake",
   "rust_analyzer",
+  "asm_lsp",
 }
 
 require("mason").setup()
