@@ -39,8 +39,8 @@ require("lazy").setup({
   "preservim/nerdcommenter",
   -- lsp
   "neovim/nvim-lspconfig",
-  "williamboman/mason.nvim",
-  "williamboman/mason-lspconfig.nvim",
+  "mason-org/mason.nvim",
+  "mason-org/mason-lspconfig.nvim",
   -- fuzzy finder and many things else
   "nvim-lua/plenary.nvim",
   "nvim-telescope/telescope.nvim",
