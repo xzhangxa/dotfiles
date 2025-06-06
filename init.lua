@@ -18,6 +18,13 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local servers = {
+  "clangd",
+  "neocmake",
+  "rust_analyzer",
+  "asm_lsp",
+}
+
 require("lazy").setup({
   { "ellisonleao/gruvbox.nvim", priority = 1000 , config = true },
   {
@@ -38,9 +45,16 @@ require("lazy").setup({
   -- comments shortcuts
   "preservim/nerdcommenter",
   -- lsp
-  "neovim/nvim-lspconfig",
-  "mason-org/mason.nvim",
-  "mason-org/mason-lspconfig.nvim",
+  {
+    "mason-org/mason-lspconfig.nvim",
+    opts = {
+      ensure_installed = servers,
+    },
+    dependencies = {
+      { "mason-org/mason.nvim", opts = {} },
+      "neovim/nvim-lspconfig",
+    },
+  },
   -- fuzzy finder and many things else
   "nvim-lua/plenary.nvim",
   "nvim-telescope/telescope.nvim",
@@ -135,11 +149,11 @@ vim.cmd([[
 -- setup quickfix window size
 vim.cmd([[
 augroup qfwin
-    autocmd!
-    autocmd FileType qf call AdjustWindowHeight(3, 20)
+  autocmd!
+  autocmd FileType qf call AdjustWindowHeight(3, 20)
 augroup END
 function! AdjustWindowHeight(minheight, maxheight)
-    execute max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+  execute max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
 endfunction
 ]])
 
@@ -152,7 +166,7 @@ vim.cmd([[
 -- lualine
 -------------------------------------------------------------------------------
 require('lualine').setup {
-    options = { theme = 'gruvbox' },
+  options = { theme = 'gruvbox' },
 }
 
 -- diffview
@@ -263,25 +277,10 @@ cmp.setup.cmdline(':', {
   })
 })
 
--- nvim-lspconfig
--- mason
--- mason-lspconfig
--------------------------------------------------------------------------------
-local servers = {
-  "clangd",
-  "neocmake",
-  "rust_analyzer",
-  "asm_lsp",
-}
-
-require("mason").setup()
-require("mason-lspconfig").setup { ensure_installed = servers, }
-
-local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup({ capabilities = capabilities })
+  vim.lsp.config(lsp, { capabilities = capabilities })
 end
 
 -- nvim-autopairs
