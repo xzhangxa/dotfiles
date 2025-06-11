@@ -4,22 +4,28 @@ set -e
 
 SRC_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 
+mkdir -p /tmp/zx_setup
+cd /tmp/zx_setup
+
 echo "=== Install necessary packages ==="
 sudo -E apt-get update
 sudo -E apt-get install -y \
-            aptitude apt-file \
-            curl wget rsync socat ranger trash-cli \
-            openssh-server git tmux zsh htop unzip \
-            build-essential gdb cmake cmake-curses-gui clang-format cloc \
-            fuse3 libfuse2 command-not-found lsb-release
-
-# Install this only on desktop with wayland
-# sudo -E apt-get install -y wl-clipboard
+            aptitude apt-file openssh-server git tmux zsh \
+            curl wget rsync htop trash-cli unzip \
+            build-essential gdb cmake cmake-curses-gui clang-format cloc bear \
+            fuse3 command-not-found socat ranger
 
 sudo -E apt-file update
 
-mkdir -p /tmp/zx_setup
-cd /tmp/zx_setup
+# Install these only on desktop
+#
+# sudo -E apt-get install -y wl-clipboard
+#
+# wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Terminus.zip
+# unzip -d Terminus Terminus.zip
+# mkdir -p ~/.local/share/fonts/
+# cp Terminus/TerminessNerdFontMono-*.ttf ~/.local/share/fonts/
+# fc-cache -f
 
 echo "=== Setup GDB ==="
 wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -O ~/.gdbinit
