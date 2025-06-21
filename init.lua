@@ -42,8 +42,6 @@ require("lazy").setup({
   "sindrets/diffview.nvim",
   -- auto close quotes, brackets
   "windwp/nvim-autopairs",
-  -- comments shortcuts
-  "preservim/nerdcommenter",
   -- lsp
   {
     "mason-org/mason-lspconfig.nvim",
@@ -58,7 +56,8 @@ require("lazy").setup({
   -- fuzzy finder and many things else
   "nvim-lua/plenary.nvim",
   "nvim-telescope/telescope.nvim",
-  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+  "nvim-telescope/telescope-ui-select.nvim",
+  { "nvim-treesitter/nvim-treesitter", branch = "master", lazy = false, build = ":TSUpdate" },
   -- completer, snippets
   { "hrsh7th/nvim-cmp",
     event = "InsertEnter",
@@ -132,6 +131,7 @@ vim.cmd([[
 -- lsp, diagnostic
 vim.keymap.set('n', '<leader>n', vim.lsp.buf.rename)
 vim.keymap.set({'n', 'v'}, '<leader>5', vim.lsp.buf.format)
+vim.keymap.set({'n', 'v'}, '<leader>a', vim.lsp.buf.code_action)
 -- neovim default: <C-S> in Insert and Select mode maps to vim.lsp.buf.signature_help()
 -- neovim default: K in Normal mode maps to vim.lsp.buf.hover()
 
@@ -159,8 +159,8 @@ endfunction
 
 -- per language
 -- autocmd FileType c setlocal noexpandtab shiftwidth=8 softtabstop=8
+-- autocmd FileType cpp setlocal noexpandtab shiftwidth=8 softtabstop=8
 vim.cmd([[
-  autocmd FileType dts setlocal foldmethod=indent foldignore=
 ]])
 
 -- lualine
@@ -298,8 +298,16 @@ require("telescope").setup {
         ["<esc>"] = actions.close
       },
     },
+  },
+  extensions = {
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown {
+        -- even more opts
+      }
+    }
   }
 }
+require("telescope").load_extension("ui-select")
 
 local builtin = require("telescope.builtin")
 vim.keymap.set('n', '<leader>f', function() builtin.find_files({ default_text = vim.fn.expand('%:~:.:h') }) end, {})
@@ -318,10 +326,10 @@ vim.keymap.set('n', '<leader>dl', function() builtin.diagnostics({ bufnr = 0 }) 
 -------------------------------------------------------------------------------
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
-    "c", "cpp", "rust", "python", "cuda",
+    "c", "cpp", "rust", "python", "cuda", "asm", "devicetree",
     "toml", "yaml", "json", "markdown", "dockerfile",
-    "make", "cmake", "bash",
-    "lua", "vim", "vimdoc"
+    "make", "cmake", "meson", "bash", "llvm",
+    "lua", "vim", "vimdoc",
   },
   highlight = { enable = true, },
 }
