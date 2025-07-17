@@ -78,14 +78,11 @@ require("lazy").setup({
 
 -- neovim basic/misc. settings
 -------------------------------------------------------------------------------
-vim.cmd('filetype plugin indent on')
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.jumpoptions = 'stack'
 
 -- indent
 vim.opt.smartindent = true
-vim.opt.autoindent = true
-vim.opt.backspace = { 'indent', 'eol', 'start' }
 vim.opt.tabstop = 8
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 4
@@ -94,8 +91,6 @@ vim.opt.softtabstop = 4
 -- search
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.incsearch = true
-vim.opt.hlsearch = true
 -- set very magic for regular expression
 vim.keymap.set('n', '/', '/\\v', {})
 vim.keymap.set('n', '?', '?\\v', {})
@@ -110,23 +105,16 @@ vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>', {})
 vim.keymap.set('n', 'T', ':split | terminal<CR>i', {})
 
 -- ui, color, etc.
-vim.opt.termguicolors = true
 vim.opt.background = 'dark'
 vim.cmd.colorscheme('gruvbox')
 vim.opt.cursorline = true
 vim.opt.colorcolumn = { '80', '120' }
 vim.opt.completeopt = { 'menuone', 'noselect' }
-vim.opt.laststatus = 2
 vim.opt.number = true
-vim.opt.ruler = true
-vim.opt.showcmd = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.scrolloff = 5
-vim.cmd([[
-  syntax enable
-  match ErrorMsg "\s\+$"
-]])
+vim.fn.matchadd('ErrorMsg', '\\s\\+$')
 
 -- lsp, diagnostic
 vim.keymap.set('n', '<leader>n', vim.lsp.buf.rename)
@@ -144,17 +132,6 @@ vim.diagnostic.config({
 -- remember and open at the pos of the file when last time closed
 vim.cmd([[
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
-]])
-
--- setup quickfix window size
-vim.cmd([[
-augroup qfwin
-  autocmd!
-  autocmd FileType qf call AdjustWindowHeight(3, 20)
-augroup END
-function! AdjustWindowHeight(minheight, maxheight)
-  execute max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
-endfunction
 ]])
 
 -- per language
