@@ -116,9 +116,9 @@ alias ll='eza -l'
 alias la='eza -a'
 #alias grep='grep -iIn --exclude=tags --exclude-dir={.git,.idea,.vscode} --color=auto'
 alias rg='rg --column --no-heading --smart-case --color=always'
-alias v='nvim'
-alias vi='nvim'
-alias vim='nvim'
+alias v='nvim --server $NVIM --remote'
+alias vi='nvim --server $NVIM --remote'
+alias vim='nvim --server $NVIM --remote'
 alias vd='nvim -d'
 export VISUAL=nvim
 export EDITOR=nvim
