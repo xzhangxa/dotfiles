@@ -32,6 +32,7 @@ require("lazy").setup({
     version = "*",
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
+  { "akinsho/toggleterm.nvim", config = true },
   {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -80,6 +81,7 @@ require("lazy").setup({
 -------------------------------------------------------------------------------
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.jumpoptions = 'stack'
+vim.opt.diffopt = {"vertical", "internal", "filler", "closeoff", "linematch:40"}
 
 -- indent
 vim.opt.smartindent = true
@@ -98,11 +100,6 @@ vim.keymap.set('c', 's/', 's/\\v', {})
 -- search visual selected word
 vim.keymap.set('v', '/', 'y/<C-r>"<CR>', {})
 vim.keymap.set('v', '?', 'y?<C-r>"<CR>', {})
-
--- terminal
-vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', {})
-vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>', {})
-vim.keymap.set('n', 'T', ':split | terminal<CR>i', {})
 
 -- ui, color, etc.
 vim.opt.background = 'dark'
@@ -334,3 +331,23 @@ require("bufferline").setup {
     },
   }
 }
+
+-- toggleterm
+-------------------------------------------------------------------------------
+require("toggleterm").setup{
+  open_mapping = [[<c-\>]],
+  direction = 'float',
+  start_in_insert = true,
+  insert_mappings = true,
+  terminal_mappings = true,
+  close_on_exit = true,
+}
+
+function _G.set_terminal_keymaps()
+  local opts = {buffer = 0}
+  vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+  vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+end
+
+-- if you only want these mappings for toggle term use term://*toggleterm#* instead
+vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
