@@ -10,9 +10,9 @@ cd /tmp/zx_setup
 echo "=== Install necessary packages ==="
 sudo -E apt-get update
 sudo -E apt-get install -y \
-            aptitude apt-file openssh-server git tmux zsh \
-            curl wget rsync htop trash-cli unzip \
-            build-essential gdb cmake cmake-curses-gui clang-format cloc bear \
+            aptitude apt-file openssh-server curl wget rsync trash-cli unzip \
+            git tmux zsh htop clang-format cloc bear \
+            build-essential gdb cmake cmake-curses-gui meson pkgconf \
             fuse3 command-not-found socat ranger
 
 sudo -E apt-file update
