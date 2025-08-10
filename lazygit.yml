@@ -1,2 +1,5 @@
+gui:
+  showCommandLog: false
+  nerdFontsVersion: 3
 git:
   autoFetch: false
