@@ -44,6 +44,13 @@ if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k ]; then
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 fi
 
+echo "=== Setup fzf ==="
+if [ -d ~/.fzf ]; then
+    rm -rf ~/.fzf
+fi
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install --all
+
 echo "=== Copy config files ==="
 mkdir -p ~/.config/nvim
 mkdir -p ~/.config/lazygit
@@ -56,13 +63,6 @@ cp "$SRC_DIR"/gitconfig ~/.gitconfig
 mkdir -p ~/.local/bin
 cp "$SRC_DIR"/dgdb ~/.local/bin
 cp "$SRC_DIR"/git-proxy ~/.local/bin
-
-echo "=== Setup fzf ==="
-if [ -d ~/.fzf ]; then
-    rm -rf ~/.fzf
-fi
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install --all
 
 echo "=== Setup neovim, vim-plug and plugins ==="
 wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.appimage -O ~/.local/bin/nvim

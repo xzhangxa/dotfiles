@@ -5,8 +5,7 @@ Personal shell config files for Debian/Ubuntu, macOS. See setup scripts for deta
 - neovim + plugins
 - zsh + oh my zsh
 - tmux
-- git
+- git + lazygit
 - gdb
 - powerline10k
-- rust cmdline tools
-- dircolors file
+- cmdline tools
