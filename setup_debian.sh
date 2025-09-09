@@ -71,6 +71,9 @@ tar xf lazygit.tar.gz lazygit
 mv lazygit ~/.local/bin
 
 echo "=== Setup rust and tools from cargo ==="
+# if rustup is slow:
+#   export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
+#   export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > sh.rustup.rs
 sh ./sh.rustup.rs -y --no-modify-path
 source ~/.cargo/env
