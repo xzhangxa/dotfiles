@@ -4,6 +4,14 @@ set -e
 
 SRC_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --desktop) desktop=1 ;;
+        *) echo "Unknown arg: $1"; exit 1 ;;
+    esac
+    shift
+done
+
 mkdir -p /tmp/zx_setup
 cd /tmp/zx_setup
 
@@ -17,15 +25,20 @@ sudo -E apt-get install -y \
 
 sudo -E apt-file update
 
-# Install these only on desktop
-#
-# sudo -E apt-get install -y wl-clipboard
-#
-# wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Terminus.zip
-# unzip -d Terminus Terminus.zip
-# mkdir -p ~/.local/share/fonts/
-# cp Terminus/TerminessNerdFontMono-*.ttf ~/.local/share/fonts/
-# fc-cache -f
+if [[ $desktop == "1" ]]; then
+    sudo -E apt-get install -y keyd
+    sudo mkdir -p /etc/libinput /etc/keyd
+    sudo cp "$SRC_DIR"/keyd-default.conf /etc/keyd/
+    sudo cp "$SRC_DIR"/local-overrides.quirks /etc/libinput/
+
+    sudo -E apt-get install -y wl-clipboard
+
+    wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Terminus.zip
+    unzip -d Terminus Terminus.zip
+    mkdir -p ~/.local/share/fonts/
+    cp Terminus/TerminessNerdFontMono-*.ttf ~/.local/share/fonts/
+    fc-cache -f
+fi
 
 echo "=== Setup GDB ==="
 wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -O ~/.gdbinit
