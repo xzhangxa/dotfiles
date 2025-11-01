@@ -19,7 +19,7 @@ echo "=== Install necessary packages ==="
 sudo -E apt-get update
 sudo -E apt-get install -y \
             aptitude apt-file openssh-server curl wget rsync trash-cli unzip \
-            git tmux zsh htop clang-format cloc bear \
+            git tmux zsh htop btop clang-format cloc bear \
             build-essential gdb cmake cmake-curses-gui meson pkgconf \
             fuse3 command-not-found socat ranger
 
