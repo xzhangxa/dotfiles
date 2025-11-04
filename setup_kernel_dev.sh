@@ -1,3 +1,7 @@
+#!/bin/bash
+
+set -e
+
 # A few packages needed for kernel build and/or BPF related tools.
 
 # for kernel itself
