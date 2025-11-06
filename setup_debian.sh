@@ -64,6 +64,7 @@ echo "=== Copy config files ==="
 mkdir -p ~/.config/nvim
 mkdir -p ~/.config/lazygit
 cp "$SRC_DIR"/init.lua ~/.config/nvim/init.lua
+cp "$SRC_DIR"/vscode-neovim.lua ~/.config/nvim/vscode-neovim.lua
 cp "$SRC_DIR"/lazygit.yml ~/.config/lazygit/config.yml
 cp "$SRC_DIR"/zshrc ~/.zshrc
 cp "$SRC_DIR"/p10k.zsh ~/.p10k.zsh
