@@ -84,6 +84,9 @@ curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/downl
 tar xf lazygit.tar.gz lazygit
 mv lazygit ~/.local/bin
 
+echo "=== Setup uv ==="
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
 echo "=== Setup rust and tools from cargo ==="
 # if rustup is slow:
 #   export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
