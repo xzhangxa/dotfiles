@@ -114,11 +114,14 @@ vim.opt.scrolloff = 5
 vim.fn.matchadd('ErrorMsg', '\\s\\+$')
 
 -- lsp, diagnostic
-vim.keymap.set('n', '<leader>n', vim.lsp.buf.rename)
 vim.keymap.set({'n', 'v'}, '<leader>5', vim.lsp.buf.format)
-vim.keymap.set({'n', 'v'}, '<leader>a', vim.lsp.buf.code_action)
 -- neovim default: <C-S> in Insert and Select mode maps to vim.lsp.buf.signature_help()
 -- neovim default: K in Normal mode maps to vim.lsp.buf.hover()
+-- neovim default: gra in Normal/Visual mode maps to vim.lsp.buf.code_action()
+-- neovim default: grn maps to vim.lsp.buf.rename()
+-- neovim default: gri maps to vim.lsp.buf.implementation()
+-- neovim default: grr maps to vim.lsp.buf.references()
+-- neovim default: grt maps to vim.lsp.buf.type_definition()
 
 vim.diagnostic.config({
   virtual_lines = {
@@ -321,7 +324,7 @@ vim.keymap.set('n', '<leader>m', function() builtin.main_pages({ sections = { "A
 vim.keymap.set('n', '<leader>g', builtin.lsp_definitions, {})
 vim.keymap.set('n', '<leader>r', builtin.lsp_references, {})
 vim.keymap.set('n', '<leader>l', builtin.lsp_document_symbols, {})
-vim.keymap.set('n', '<leader>dl', function() builtin.diagnostics({ bufnr = 0 }) end, {})
+vim.keymap.set('n', '<leader>d', function() builtin.diagnostics({ bufnr = 0 }) end, {})
 
 -- nvim-treesitter
 -------------------------------------------------------------------------------
