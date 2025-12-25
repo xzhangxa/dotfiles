@@ -12,6 +12,8 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
+mkdir -p ~/.local/bin
+mkdir -p ~/.config
 mkdir -p /tmp/zx_setup
 cd /tmp/zx_setup
 
@@ -43,7 +45,6 @@ fi
 echo "=== Copy config files ==="
 cp "$SRC_DIR"/gitconfig ~/.gitconfig
 cp "$SRC_DIR"/tmux.conf ~/.tmux.conf
-mkdir -p ~/.local/bin
 cp "$SRC_DIR"/dgdb ~/.local/bin
 cp "$SRC_DIR"/git-proxy ~/.local/bin
 
@@ -52,25 +53,27 @@ wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -
 mkdir -p ~/.gdbinit.d
 cp "$SRC_DIR"/gdb_dashboard ~/.gdbinit.d/dashboard
 
-echo "=== Setup zsh, oh-my-zsh ==="
-if [ -d ~/.oh-my-zsh ]; then
-    rm -rf ~/.oh-my-zsh
-fi
-sh -c "CHSH=no RUNZSH=no $(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-cp "$SRC_DIR"/zshrc ~/.zshrc
-cp "$SRC_DIR"/p10k.zsh ~/.p10k.zsh
-
 echo "=== Setup fzf ==="
 if [ -d ~/.fzf ]; then
     rm -rf ~/.fzf
 fi
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install --all
+~/.fzf/install --all --no-fish
+
+echo "=== Setup zsh ==="
+if [ -d ~/.zsh-plugins ]; then
+    rm -rf ~/.zsh-plugins/
+fi
+mkdir -p ~/.zsh-plugins/omz
+git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh-plugins/zsh-syntax-highlighting
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.zsh-plugins/powerlevel10k
+wget -P ~/.zsh-plugins/omz/ https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/refs/heads/master/plugins/extract/extract.plugin.zsh
+wget -P ~/.zsh-plugins/omz/ https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/refs/heads/master/plugins/command-not-found/command-not-found.plugin.zsh
+wget -P ~/.zsh-plugins/omz/ https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/refs/heads/master/plugins/colored-man-pages/colored-man-pages.plugin.zsh
+cp "$SRC_DIR"/zshrc ~/.zshrc
+cp "$SRC_DIR"/p10k.zsh ~/.p10k.zsh
 
 echo "=== Setup neovim, vim-plug and plugins ==="
-mkdir -p ~/.local/bin
 wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.appimage -O ~/.local/bin/nvim
 chmod +x ~/.local/bin/nvim
 mkdir -p ~/.config/nvim
@@ -81,7 +84,6 @@ echo "=== Setup lazygit ==="
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
 curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 tar xf lazygit.tar.gz lazygit
-mkdir -p ~/.local/bin
 mv lazygit ~/.local/bin
 mkdir -p ~/.config/lazygit
 cp "$SRC_DIR"/lazygit.yml ~/.config/lazygit/config.yml
