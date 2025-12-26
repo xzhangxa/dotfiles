@@ -65,13 +65,13 @@ if [ -d ~/.zsh-plugins ]; then
     rm -rf ~/.zsh-plugins/
 fi
 mkdir -p ~/.zsh-plugins/omz
+curl -sS https://starship.rs/install.sh | sh -s -- -y -b ~/.local/bin
 git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh-plugins/zsh-syntax-highlighting
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.zsh-plugins/powerlevel10k
 wget -P ~/.zsh-plugins/omz/ https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/refs/heads/master/plugins/extract/extract.plugin.zsh
 wget -P ~/.zsh-plugins/omz/ https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/refs/heads/master/plugins/command-not-found/command-not-found.plugin.zsh
 wget -P ~/.zsh-plugins/omz/ https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/refs/heads/master/plugins/colored-man-pages/colored-man-pages.plugin.zsh
 cp "$SRC_DIR"/zshrc ~/.zshrc
-cp "$SRC_DIR"/p10k.zsh ~/.p10k.zsh
+cp "$SRC_DIR"/starship.toml ~/.config/starship.toml
 
 echo "=== Setup neovim, vim-plug and plugins ==="
 wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.appimage -O ~/.local/bin/nvim
@@ -95,8 +95,7 @@ echo "=== Setup rust and tools from cargo ==="
 # if rustup is slow:
 #   export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 #   export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > sh.rustup.rs
-sh ./sh.rustup.rs -y --no-modify-path
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
 source ~/.cargo/env
 cargo install ripgrep bat eza fd-find
 

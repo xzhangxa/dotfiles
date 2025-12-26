@@ -1,8 +1,5 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+if [[ ! "$PATH" =~ ".*$HOME/.local/bin.*" ]]; then
+    export PATH=~/.local/bin:$PATH
 fi
 
 setopt histignorealldups sharehistory
@@ -34,6 +31,46 @@ eval "$(dircolors)"
 if [[ -n $LS_COLORS ]]; then
   zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 fi
+
+# Code copied from comments in https://github.com/starship/starship/pull/4205
+zle-line-init() {
+  emulate -L zsh
+
+  [[ $CONTEXT == start ]] || return 0
+
+  while true; do
+    zle .recursive-edit
+    local -i ret=$?
+    [[ $ret == 0 && $KEYS == $'\4' ]] || break
+    [[ -o ignore_eof ]] || exit 0
+  done
+
+  local saved_prompt=$PROMPT
+  local saved_rprompt=$RPROMPT
+
+  # Set prompt value from character module
+  PROMPT="$(starship module -s ${STARSHIP_CMD_STATUS:-0} character)"
+  RPROMPT=''
+  zle .reset-prompt
+  PROMPT=$saved_prompt
+  RPROMPT=$saved_rprompt
+
+  if (( ret )); then
+    zle .send-break
+  else
+    zle .accept-line
+  fi
+  return ret
+}
+zle -N zle-line-init
+
+eval "$(starship init zsh)"
+
+source ~/.zsh-plugins/omz/extract.plugin.zsh
+source ~/.zsh-plugins/omz/command-not-found.plugin.zsh
+autoload -U colors && colors
+source ~/.zsh-plugins/omz/colored-man-pages.plugin.zsh
+source ~/.zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 
 alias rm='trash-put'
@@ -76,23 +113,9 @@ if [[ `uname` == "Linux" && `lsb_release -i` =~ ".*Debian" ]]; then
     export DEBUGINFOD_URLS="https://debuginfod.debian.net"
 fi
 
-if [[ ! "$PATH" =~ ".*$HOME/.local/bin.*" ]]; then
-    export PATH=~/.local/bin:$PATH
-fi
 [[ ! -f ~/.cargo/env ]] || source ~/.cargo/env
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 eval "$(uv generate-shell-completion zsh)"
 eval "$(uvx --generate-shell-completion zsh)"
-
-source ~/.zsh-plugins/powerlevel10k/powerlevel10k.zsh-theme
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-export POWERLEVEL9K_DISABLE_GITSTATUS=true
-
-source ~/.zsh-plugins/omz/extract.plugin.zsh
-source ~/.zsh-plugins/omz/command-not-found.plugin.zsh
-autoload -U colors && colors
-source ~/.zsh-plugins/omz/colored-man-pages.plugin.zsh
-source ~/.zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
