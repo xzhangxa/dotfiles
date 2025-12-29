@@ -15,6 +15,10 @@ HISTFILE=~/.zsh_history
 autoload -Uz compinit
 compinit
 
+zstyle ':completion:*:*:*:*:users' ignored-patterns '*'
+zstyle ':completion:*:*:*:*:hosts' ignored-patterns '*'
+zstyle ':completion:*' completer _complete _expand _approximate
+
 # Load menu selection module
 zmodload zsh/complist
 
@@ -32,6 +36,7 @@ if [[ -n $LS_COLORS ]]; then
   zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 fi
 
+# Transient prompt
 # Code copied from comments in https://github.com/starship/starship/pull/4205
 zle-line-init() {
   emulate -L zsh
@@ -68,8 +73,10 @@ eval "$(starship init zsh)"
 
 source ~/.zsh-plugins/omz/extract.plugin.zsh
 source ~/.zsh-plugins/omz/command-not-found.plugin.zsh
+
 autoload -U colors && colors
 source ~/.zsh-plugins/omz/colored-man-pages.plugin.zsh
+
 source ~/.zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 
@@ -81,9 +88,9 @@ alias la='eza -a'
 alias bat='bat --theme gruvbox-dark'
 alias lg='lazygit'
 alias rg='rg --column --no-heading --smart-case --color=always'
-alias v='nvim --server $NVIM --remote'
-alias vi='nvim --server $NVIM --remote'
-alias vim='nvim --server $NVIM --remote'
+alias v='nvim'
+alias vi='nvim'
+alias vim='nvim'
 alias vd='nvim -d'
 export VISUAL=nvim
 export EDITOR=nvim
