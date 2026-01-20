@@ -36,6 +36,15 @@ if [[ -n $LS_COLORS ]]; then
   zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 fi
 
+precmd() {
+  # %~ shows the current directory (with ~ for home)
+  print -Pn "\e]0;%~\a"
+}
+preexec() {
+  # $1 is the command you typed
+  print -Pn "\e]0;$1\a"
+}
+
 # Transient prompt
 # Code copied from comments in https://github.com/starship/starship/pull/4205
 zle-line-init() {
