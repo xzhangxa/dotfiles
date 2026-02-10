@@ -4,6 +4,7 @@ format = """
 $os\
 $directory\
 $git_branch\
+$git_commit\
 $git_status\
 $git_state\
 $python\
@@ -73,6 +74,11 @@ truncation_symbol = "…/"
 "Developer" = "󰲋 "
 
 [git_branch]
+style = "color_green"
+
+[git_commit]
+tag_disabled = false
+tag_symbol = " tag: "
 style = "color_green"
 
 [git_status]
