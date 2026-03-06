@@ -18,6 +18,7 @@ compinit
 zstyle ':completion:*:*:*:*:users' ignored-patterns '*'
 zstyle ':completion:*:*:*:*:hosts' ignored-patterns '*'
 zstyle ':completion:*' completer _complete _expand _approximate
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|=*'
 
 # Load menu selection module
 zmodload zsh/complist
