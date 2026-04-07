@@ -6,7 +6,7 @@ vim.g.mapleader = " "
 
 -- bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -37,8 +37,8 @@ require("lazy").setup({
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
-  -- git mark shower
-  "airblade/vim-gitgutter",
+  -- git signs in gutter
+  { "lewis6991/gitsigns.nvim", config = true },
   -- git diff
   "sindrets/diffview.nvim",
   -- auto close quotes, brackets
@@ -130,16 +130,32 @@ vim.diagnostic.config({
 })
 
 -- remember and open at the pos of the file when last time closed
-vim.cmd([[
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
-]])
+vim.api.nvim_create_autocmd("BufReadPost", {
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+    if mark[1] > 1 and mark[1] <= lcount then
+      vim.api.nvim_win_set_cursor(0, mark)
+    end
+  end,
+})
 
 -- per language
--- autocmd FileType c setlocal noexpandtab shiftwidth=8 softtabstop=8
--- autocmd FileType cpp setlocal noexpandtab shiftwidth=8 softtabstop=8
-vim.cmd([[
-autocmd FileType lua setlocal shiftwidth=2 softtabstop=2
-]])
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = { "c", "cpp" },
+--   callback = function()
+--     vim.opt_local.expandtab = false
+--     vim.opt_local.shiftwidth = 8
+--     vim.opt_local.softtabstop = 8
+--   end,
+-- })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "lua",
+  callback = function()
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
+  end,
+})
 
 -- lualine
 -------------------------------------------------------------------------------
@@ -152,6 +168,10 @@ require('lualine').setup {
 vim.keymap.set('n', '<leader>1', ':DiffviewOpen -uno ', {})
 vim.keymap.set('n', '<leader>2', ':DiffviewFileHistory ', {})
 vim.keymap.set('n', '<leader>3', ':DiffviewClose<cr>', {})
+
+-- gitsigns
+-------------------------------------------------------------------------------
+vim.keymap.set('n', '<leader>4', ':Gitsigns blame<cr>', {})
 
 -- nvim-tree
 -------------------------------------------------------------------------------
@@ -326,7 +346,7 @@ vim.keymap.set('n', '<leader>s', builtin.grep_string, {})
 vim.keymap.set('n', '<leader>S', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>b', builtin.buffers, {})
 vim.keymap.set('n', '<leader>o', builtin.oldfiles, {})
-vim.keymap.set('n', '<leader>m', function() builtin.main_pages({ sections = { "ALL" } }) end, {})
+vim.keymap.set('n', '<leader>m', function() builtin.man_pages({ sections = { "ALL" } }) end, {})
 vim.keymap.set('n', '<leader>g', builtin.lsp_definitions, {})
 vim.keymap.set('n', '<leader>r', builtin.lsp_references, {})
 vim.keymap.set('n', '<leader>l', builtin.lsp_document_symbols, {})
@@ -386,4 +406,7 @@ function _G.set_terminal_keymaps()
 end
 
 -- if you only want these mappings for toggle term use term://*toggleterm#* instead
-vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "term://*",
+  callback = set_terminal_keymaps,
+})
