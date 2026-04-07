@@ -1,42 +1,76 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
+
+SRC_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+
+mkdir -p ~/.local/bin
+mkdir -p ~/.config
+mkdir -p /tmp/zx_setup
+cd /tmp/zx_setup
 
 echo "=== Install necessary packages ==="
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew update
-brew install tmux neovim htop rsync clang-format cloc ranger cmake wget trash-cli
+brew install curl wget rsync trash-cli unzip \
+             git tmux zsh htop btop clang-format cloc bear \
+             gdb cmake meson pkg-config socat ranger
 
-echo "=== Setup oh-my-zsh ==="
-if [ -d ~/.oh-my-zsh ]; then
-    rm -rf ~/.oh-my-zsh
-fi
-sh -c "CHSH=no RUNZSH=no $(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
-if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]; then
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-fi
-if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k ]; then
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-fi
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Terminus.zip
+unzip -d Terminus Terminus.zip
+mkdir -p ~/Library/Fonts/
+cp Terminus/TerminessNerdFontMono-*.ttf ~/Library/Fonts/
 
 echo "=== Copy config files ==="
-mkdir -p ~/.config/nvim
-cp $(dirname "$0")/init.lua ~/.config/nvim/init.lua
-cp $(dirname "$0")/zshrc ~/.zshrc
-cp $(dirname "$0")/p10k.zsh ~/.p10k.zsh
-cp $(dirname "$0")/tmux.conf ~/.tmux.conf
-cp $(dirname "$0")/gitconfig ~/.gitconfig
+cp "$SRC_DIR"/gitconfig ~/.gitconfig
+cp "$SRC_DIR"/tmux.conf ~/.tmux.conf
+cp "$SRC_DIR"/dgdb ~/.local/bin
+cp "$SRC_DIR"/git-proxy ~/.local/bin
+
+echo "=== Setup GDB ==="
+wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -O ~/.gdbinit
+mkdir -p ~/.gdbinit.d
+cp "$SRC_DIR"/gdb_dashboard ~/.gdbinit.d/dashboard
 
 echo "=== Setup fzf ==="
 if [ -d ~/.fzf ]; then
     rm -rf ~/.fzf
 fi
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install --all
+~/.fzf/install --all --no-fish
+
+echo "=== Setup zsh ==="
+if [ -d ~/.zsh-plugins ]; then
+    rm -rf ~/.zsh-plugins/
+fi
+mkdir -p ~/.zsh-plugins/omz
+curl -sS https://starship.rs/install.sh | sh -s -- -y -b ~/.local/bin
+git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh-plugins/zsh-syntax-highlighting
+wget -P ~/.zsh-plugins/omz/ https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/refs/heads/master/plugins/extract/extract.plugin.zsh
+wget -P ~/.zsh-plugins/omz/ https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/refs/heads/master/plugins/command-not-found/command-not-found.plugin.zsh
+wget -P ~/.zsh-plugins/omz/ https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/refs/heads/master/plugins/colored-man-pages/colored-man-pages.plugin.zsh
+cp "$SRC_DIR"/zshrc ~/.zshrc
+cp "$SRC_DIR"/starship.toml ~/.config/starship.toml
+
+echo "=== Setup neovim and vim-plug ==="
+brew install neovim
+mkdir -p ~/.config/nvim
+cp "$SRC_DIR"/init.lua ~/.config/nvim/init.lua
+cp "$SRC_DIR"/vscode-neovim.lua ~/.config/nvim/vscode-neovim.lua
+
+echo "=== Setup lazygit ==="
+brew install lazygit
+mkdir -p ~/.config/lazygit
+cp "$SRC_DIR"/lazygit.yml ~/.config/lazygit/config.yml
+
+echo "=== Setup uv ==="
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
 echo "=== Setup rust and tools from cargo ==="
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > sh.rustup.rs
-sh ./sh.rustup.rs -y --no-modify-path && rm ./sh.rustup.rs
+# if rustup is slow:
+#   export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
+#   export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
 source ~/.cargo/env
 cargo install ripgrep bat eza fd-find
 

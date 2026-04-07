@@ -1,9 +1,10 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
-SRC_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+SRC_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
+desktop=0
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         --desktop) desktop=1 ;;

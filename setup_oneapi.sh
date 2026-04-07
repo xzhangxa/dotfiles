@@ -1,9 +1,9 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
-sudo apt update
-sudo apt install -y gpg-agent wget
+sudo apt-get update
+sudo apt-get install -y gpg-agent wget
 
 wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB \
 | gpg --dearmor | sudo tee /usr/share/keyrings/oneapi-archive-keyring.gpg > /dev/null
@@ -13,7 +13,7 @@ echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt
 
 sudo apt update
 
-sudo apt install -y intel-oneapi-base-toolkit
+sudo apt-get install -y intel-oneapi-base-toolkit
 
-sudo usermod -a -G video ${USER}
-sudo usermod -a -G render ${USER}
+sudo usermod -a -G video "${USER}"
+sudo usermod -a -G render "${USER}"
