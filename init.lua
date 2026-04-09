@@ -59,18 +59,6 @@ require("lazy").setup({
   "nvim-telescope/telescope.nvim",
   "nvim-telescope/telescope-ui-select.nvim",
   { "nvim-treesitter/nvim-treesitter", branch = "master", lazy = false, build = ":TSUpdate" },
-  -- completer, snippets
-  { "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-cmdline",
-      "hrsh7th/cmp-vsnip",
-      "hrsh7th/vim-vsnip",
-    },
-  },
   -- folder navigation
   "nvim-tree/nvim-tree.lua",
   -- session
@@ -106,7 +94,6 @@ vim.opt.background = 'dark'
 vim.cmd.colorscheme('gruvbox')
 vim.opt.cursorline = true
 vim.opt.colorcolumn = { '80', '120' }
-vim.opt.completeopt = { 'menuone', 'noselect' }
 vim.opt.number = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
@@ -123,11 +110,39 @@ vim.keymap.set({'n', 'v'}, '<leader>5', vim.lsp.buf.format)
 -- neovim default: grr maps to vim.lsp.buf.references()
 -- neovim default: grt maps to vim.lsp.buf.type_definition()
 
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client:supports_method('textDocument/completion') then
+      vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+    end
+  end,
+})
+
 vim.diagnostic.config({
   virtual_lines = {
     current_line = true,
   },
 })
+
+-- auto completion
+vim.opt.autocomplete = true
+vim.opt.pumborder = 'rounded'
+vim.opt.pummaxwidth = 40
+vim.opt.complete = ".^5,w^5,b^5,u^5,i^5"
+vim.opt.completeopt = { 'menuone', 'noselect', 'popup' }
+vim.keymap.set('i', '<Tab>',
+  function()
+    return vim.fn.pumvisible() == 1 and '<C-n>' or '<Tab>'
+  end,
+  { noremap = true, expr = true }
+)
+vim.keymap.set('i', '<S-Tab>',
+  function()
+    return vim.fn.pumvisible() == 1 and '<C-p>' or '<S-Tab>'
+  end,
+  { noremap = true, expr = true }
+)
 
 -- remember and open at the pos of the file when last time closed
 vim.api.nvim_create_autocmd("BufReadPost", {
@@ -192,21 +207,14 @@ require("nvim-tree").setup({
 vim.keymap.set('n', '<leader>F', ':NvimTreeFindFile!<cr>', {})
 
 local function open_nvim_tree(data)
-  -- buffer is a real file on the disk
   local real_file = vim.fn.filereadable(data.file) == 1
-  -- buffer is a [No Name]
   local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
-  if not real_file and not no_name then
-    return
-  end
-  -- change to file's directory if it's not under cwd
+  if not (real_file or no_name) then return end
+
   local file_dir = vim.fn.fnamemodify(data.file, ':p:h')
-  local cwd = vim.fn.getcwd()
-  if not string.find(file_dir, cwd, 1, true) then
-    vim.cmd.cd(file_dir)
-  end
-  -- open the tree, find the file but don't focus it
-  require("nvim-tree.api").tree.toggle({ focus = false, find_file = true, })
+  if vim.fn.stridx(file_dir, vim.fn.getcwd()) ~= 0 then vim.cmd.cd(file_dir) end
+
+  require("nvim-tree.api").tree.toggle({ focus = false, find_file = true })
 end
 -- Open nvim-tree when open nvim using the function above
 vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
@@ -214,17 +222,16 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 -- Close nvim-tree when it's the last window
 vim.api.nvim_create_autocmd( {"QuitPre"}, {
   callback = function()
-    local invalid_win = {}
     local wins = vim.api.nvim_list_wins()
-    for _, w in ipairs(wins) do
-      local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(w))
-      if bufname:match("NvimTree_") ~= nil then
-        table.insert(invalid_win, w)
-      end
-    end
-    if #invalid_win == #wins - 1 then
+    local tree_wins = vim.tbl_filter(function(win)
+      local buf = vim.api.nvim_win_get_buf(win)
+      local bufname = vim.api.nvim_buf_get_name(buf)
+      return bufname:match("NvimTree_") ~= nil
+    end, wins)
+
+    if #tree_wins == #wins - 1 then
       -- Should quit, so we close all invalid windows.
-      for _, w in ipairs(invalid_win) do vim.api.nvim_win_close(w, true) end
+      for _, win in ipairs(tree_wins) do vim.api.nvim_win_close(win, true) end
     end
   end
 })
@@ -232,86 +239,6 @@ vim.api.nvim_create_autocmd( {"QuitPre"}, {
 -- startify
 -------------------------------------------------------------------------------
 vim.g['startify_session_persistence'] = 1
-
--- nvim-cmp
--------------------------------------------------------------------------------
-local cmp = require('cmp')
-
-local has_words_before = function()
-  unpack = unpack or table.unpack
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-
-local feedkey = function(key, mode)
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-end
-
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body)
-    end,
-  },
-  mapping = cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Insert,
-      select = false
-    }),
-    ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif vim.fn["vsnip#available"](1) == 1 then
-        feedkey("<Plug>(vsnip-expand-or-jump)", "")
-      elseif has_words_before() then
-        cmp.complete()
-      else
-        fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
-      end
-    end, { "i", "s" }),
-    ["<S-Tab>"] = cmp.mapping(function()
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-        feedkey("<Plug>(vsnip-jump-prev)", "")
-      end
-    end, { "i", "s" }),
-  }),
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'vsnip' },
-  }, {
-    { name = 'buffer' },
-  })
-})
-
--- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline({'/', '?'}, {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = 'buffer' }
-  }
-})
-
--- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = 'path' }
-  }, {
-    { name = 'cmdline' }
-  })
-})
-
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-for _, lsp in ipairs(servers) do
-  vim.lsp.config(lsp, { capabilities = capabilities })
-end
 
 -- nvim-autopairs
 -------------------------------------------------------------------------------

@@ -25,7 +25,6 @@ vim.keymap.set('v', '?', 'y?<C-r>"<CR>', {})
 -- ui, color, etc.
 vim.opt.cursorline = true
 vim.opt.colorcolumn = { '80', '120' }
-vim.opt.completeopt = { 'menuone', 'noselect' }
 vim.opt.number = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
