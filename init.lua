@@ -62,7 +62,7 @@ require("lazy").setup({
   -- folder navigation
   "nvim-tree/nvim-tree.lua",
   -- session
-  "mhinz/vim-startify",
+  { "rmagatti/auto-session", lazy = false },
 })
 
 -- neovim basic/misc. settings
@@ -206,39 +206,21 @@ require("nvim-tree").setup({
 })
 vim.keymap.set('n', '<leader>F', ':NvimTreeFindFile!<cr>', {})
 
-local function open_nvim_tree(data)
-  local real_file = vim.fn.filereadable(data.file) == 1
-  local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
-  if not (real_file or no_name) then return end
-
-  local file_dir = vim.fn.fnamemodify(data.file, ':p:h')
-  if vim.fn.stridx(file_dir, vim.fn.getcwd()) ~= 0 then vim.cmd.cd(file_dir) end
-
-  require("nvim-tree.api").tree.toggle({ focus = false, find_file = true })
-end
--- Open nvim-tree when open nvim using the function above
-vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
-
--- Close nvim-tree when it's the last window
-vim.api.nvim_create_autocmd( {"QuitPre"}, {
-  callback = function()
-    local wins = vim.api.nvim_list_wins()
-    local tree_wins = vim.tbl_filter(function(win)
-      local buf = vim.api.nvim_win_get_buf(win)
-      local bufname = vim.api.nvim_buf_get_name(buf)
-      return bufname:match("NvimTree_") ~= nil
-    end, wins)
-
-    if #tree_wins == #wins - 1 then
-      -- Should quit, so we close all invalid windows.
-      for _, win in ipairs(tree_wins) do vim.api.nvim_win_close(win, true) end
-    end
-  end
-})
-
--- startify
+-- auto-session
 -------------------------------------------------------------------------------
-vim.g['startify_session_persistence'] = 1
+vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+require('auto-session').setup {
+  suppressed_dirs = { "~/", "~/Downloads", "/" },
+  pre_save_cmds = {
+    function() require('nvim-tree.api').tree.close() end
+  },
+  pre_restore_cmds = {
+    function() require('nvim-tree.api').tree.close() end
+  },
+  post_restore_cmds = {
+    function() require("nvim-tree.api").tree.toggle({ focus = false, find_file = true }) end
+  },
+}
 
 -- nvim-autopairs
 -------------------------------------------------------------------------------
