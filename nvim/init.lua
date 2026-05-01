@@ -153,6 +153,5 @@ vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "term://*",
   callback = function()
     set_terminal_keymaps()
-    vim.cmd.startinsert()
   end,
 })

@@ -102,6 +102,7 @@ alias v='nvim'
 alias vi='nvim'
 alias vim='nvim'
 alias vd='nvim -d'
+alias oc='opencode --port'
 export VISUAL=nvim
 export EDITOR=nvim
 set -o vi
