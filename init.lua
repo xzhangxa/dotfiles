@@ -21,8 +21,6 @@ vim.opt.rtp:prepend(lazypath)
 local servers = {
   "clangd",
   "neocmake",
-  "rust_analyzer",
-  "asm_lsp",
 }
 
 require("lazy").setup({
