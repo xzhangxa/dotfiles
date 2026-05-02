@@ -78,8 +78,7 @@ echo "=== Setup neovim, vim-plug and plugins ==="
 wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.appimage -O ~/.local/bin/nvim
 chmod +x ~/.local/bin/nvim
 mkdir -p ~/.config/nvim
-cp "$SRC_DIR"/init.lua ~/.config/nvim/init.lua
-cp "$SRC_DIR"/vscode-neovim.lua ~/.config/nvim/vscode-neovim.lua
+rsync -a "$SRC_DIR"/nvim/ ~/.config/nvim/
 
 echo "=== Setup lazygit ==="
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')

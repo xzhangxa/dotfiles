@@ -55,8 +55,7 @@ cp "$SRC_DIR"/starship.toml ~/.config/starship.toml
 echo "=== Setup neovim and vim-plug ==="
 brew install neovim
 mkdir -p ~/.config/nvim
-cp "$SRC_DIR"/init.lua ~/.config/nvim/init.lua
-cp "$SRC_DIR"/vscode-neovim.lua ~/.config/nvim/vscode-neovim.lua
+rsync -a "$SRC_DIR"/nvim/ ~/.config/nvim/
 
 echo "=== Setup lazygit ==="
 brew install lazygit

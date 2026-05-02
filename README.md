@@ -11,14 +11,14 @@ Personal shell config files for Debian/Ubuntu and macOS. See setup scripts for d
 
 ## Configs
 
-- **neovim** (`init.lua`, `vscode-neovim.lua`) — v0.12 native autocomplete, auto-session, gitsigns
-- **zsh** (`zshrc`) — case-insensitive completion, auto title, syntax highlighting (no oh-my-zsh)
+- **neovim** (`init.lua`)
+- **zsh** (`zshrc`)
 - **tmux** (`tmux.conf`)
 - **git + lazygit** (`gitconfig`, `lazygit.yml`, `git-proxy`)
 - **gdb** (`dgdb`, `gdb_dashboard`)
-- **starship** (`starship.toml`) — prompt with git tag support
-- **keyd** (`keyd-default.conf`, `local-overrides.quirks`) — desktop key remaps
+- **starship** (`starship.toml`)
+- **keyd** (`keyd-default.conf`, `local-overrides.quirks`)
 
 ## Tools Installed
 
-- fzf, uv (Python), ripgrep, bat, eza, fd-find
+- fzf, ripgrep, bat, eza, fd-find, uv
