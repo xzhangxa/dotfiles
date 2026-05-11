@@ -1,0 +1,65 @@
+[appindicator]
+icon-brightness=0.0
+icon-contrast=0.0
+icon-opacity=240
+icon-saturation=0.0
+icon-size=0
+
+[dash-to-panel]
+animate-appicon-hover-animation-extent={'RIPPLE': 4, 'PLANK': 4, 'SIMPLE': 1}
+context-menu-entries='[{"title":"Terminal","cmd":"ghostty"},{"title":"System monitor","cmd":"gnome-system-monitor"},{"title":"Files","cmd":"nautilus"},{"title":"Extensions","cmd":"extension-manager"}]'
+dot-position='BOTTOM'
+dot-style-focused='METRO'
+extension-version=73
+global-border-radius=0
+hotkeys-overlay-combo='TEMPORARILY'
+multi-monitors=false
+panel-anchors='{"DEL-7PW8LF4":"MIDDLE","DEL-9HJH464":"MIDDLE","DEL-6RDLDH3":"MIDDLE"}'
+panel-element-positions='{"DEL-7PW8LF4":[{"element":"showAppsButton","visible":true,"position":"stackedTL"},{"element":"activitiesButton","visible":true,"position":"stackedTL"},{"element":"leftBox","visible":true,"position":"stackedTL"},{"element":"taskbar","visible":true,"position":"stackedTL"},{"element":"dateMenu","visible":true,"position":"centerMonitor"},{"element":"centerBox","visible":true,"position":"stackedBR"},{"element":"rightBox","visible":true,"position":"stackedBR"},{"element":"systemMenu","visible":true,"position":"stackedBR"},{"element":"desktopButton","visible":false,"position":"stackedBR"}],"DEL-9HJH464":[{"element":"showAppsButton","visible":true,"position":"stackedTL"},{"element":"activitiesButton","visible":false,"position":"stackedTL"},{"element":"leftBox","visible":true,"position":"stackedTL"},{"element":"taskbar","visible":true,"position":"stackedTL"},{"element":"dateMenu","visible":true,"position":"centerMonitor"},{"element":"centerBox","visible":true,"position":"stackedBR"},{"element":"rightBox","visible":true,"position":"stackedBR"},{"element":"systemMenu","visible":true,"position":"stackedBR"},{"element":"desktopButton","visible":true,"position":"stackedBR"}]}'
+panel-lengths='{"DEL-7PW8LF4":100}'
+panel-positions='{"DEL-7PW8LF4":"TOP","DEL-9HJH464":"TOP","DEL-6RDLDH3":"TOP"}'
+panel-side-margins=0
+panel-sizes='{"DEL-7PW8LF4":32,"DEL-9HJH464":32}'
+prefs-opened=false
+secondarymenu-contains-showdetails=true
+show-apps-icon-file=''
+stockgs-keep-dash=false
+stockgs-keep-top-panel=false
+taskbar-locked=false
+trans-panel-opacity=0.0
+trans-use-border=false
+trans-use-custom-bg=false
+trans-use-custom-gradient=false
+trans-use-custom-opacity=true
+window-preview-title-position='TOP'
+
+[paperwm]
+last-used-display-server='Wayland'
+restore-attach-modal-dialogs=''
+restore-edge-tiling=''
+restore-keybinds='{}'
+restore-workspaces-only-on-primary=''
+
+[paperwm/workspaces]
+list=['5d038ede-022b-4198-af02-4fb8b0723129', '18903871-58fa-40f8-8e3b-f044e39467b3']
+
+[paperwm/workspaces/18903871-58fa-40f8-8e3b-f044e39467b3]
+index=1
+
+[paperwm/workspaces/5d038ede-022b-4198-af02-4fb8b0723129]
+index=0
+
+[tilingshell]
+cycle-layouts=['<Super>z']
+cycle-layouts-backward=['<Shift><Super>z']
+edge-tiling-mode='granular'
+enable-screen-edges-windows-suggestions=true
+enable-snap-assistant-windows-suggestions=true
+enable-tiling-system-windows-suggestions=true
+last-version-name-installed='17.3'
+layouts-json='[{"id":"257466","tiles":[{"x":0,"y":0,"width":0.5,"height":1,"groups":[1]},{"x":0.5,"y":0,"width":0.5,"height":1,"groups":[1]}]},{"id":"Layout 4","tiles":[{"x":0,"y":0,"width":0.67,"height":1,"groups":[1]},{"x":0.67,"y":0,"width":0.33,"height":1,"groups":[1]}]},{"id":"Layout 3","tiles":[{"x":0,"y":0,"width":0.33,"height":1,"groups":[1]},{"x":0.33,"y":0,"width":0.67,"height":1,"groups":[1]}]},{"id":"195726","tiles":[{"x":0,"y":0,"width":0.7000868055555556,"height":1,"groups":[1]},{"x":0.7000868055555556,"y":0,"width":0.2999131944444446,"height":0.5,"groups":[2,1]},{"x":0.7000868055555556,"y":0.5,"width":0.2999131944444446,"height":0.5,"groups":[2,1]}]},{"id":"224330","tiles":[{"x":0,"y":0,"width":1,"height":0.31408227848101267,"groups":[2]},{"x":0,"y":0.31408227848101267,"width":1,"height":0.6859177215189872,"groups":[2]}]},{"id":"245867","tiles":[{"x":0,"y":0,"width":1,"height":0.6835443037974683,"groups":[1]},{"x":0,"y":0.6835443037974683,"width":1,"height":0.31645569620253167,"groups":[1]}]}]'
+overridden-settings='{"org.gnome.mutter.keybindings":{"toggle-tiled-right":"@as []","toggle-tiled-left":"@as []"},"org.gnome.desktop.wm.keybindings":{"maximize":"@as []","unmaximize":"@as []"},"org.gnome.mutter":{"edge-tiling":"false"}}'
+override-alt-tab=false
+raise-together=false
+selected-layouts=[['224330', '257466'], ['224330', '257466']]
+snap-assist-sync-layout=true

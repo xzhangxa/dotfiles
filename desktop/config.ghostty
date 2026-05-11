@@ -1,0 +1,7 @@
+font-family = Terminess Nerd Font Mono
+font-style = Medium
+font-size = 14
+
+theme = Gruvbox Dark
+
+window-theme = ghostty
