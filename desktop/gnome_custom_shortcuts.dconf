@@ -1,0 +1,4 @@
+[custom0]
+binding='<Super>c'
+command='ghostty'
+name='ghostty'

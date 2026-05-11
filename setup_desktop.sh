@@ -4,6 +4,37 @@ set -euo pipefail
 
 SRC_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
+sudo -E apt-get install -y keyd
+sudo mkdir -p /etc/libinput /etc/keyd
+sudo cp "$SRC_DIR"/desktop/keyd-default.conf /etc/keyd/
+sudo cp "$SRC_DIR"/desktop/local-overrides.quirks /etc/libinput/
+
+sudo -E apt-get install -y wl-clipboard
+
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Terminus.zip
+unzip -d Terminus Terminus.zip
+mkdir -p ~/.local/share/fonts/
+cp Terminus/TerminessNerdFontMono-*.ttf ~/.local/share/fonts/
+fc-cache -f
+
+OS_ID=""
+if [ -f /etc/os-release ]; then
+    OS_ID=$(awk -F= '/^ID=/{gsub(/"/, "", $2); print tolower($2)}' /etc/os-release)
+fi
+
+if [ "$OS_ID" = "ubuntu" ]; then
+    sudo snap install --classic ghostty
+else
+    curl -sS https://debian.griffo.io/EA0F721D231FDD3A0A17B9AC7808B4DD62C41256.asc | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/debian.griffo.io.gpg
+    echo "deb https://debian.griffo.io/apt $(lsb_release -sc 2>/dev/null) main" | sudo tee /etc/apt/sources.list.d/debian.griffo.io.list
+    sudo -E apt-get update
+    sudo -E apt-get install ghostty
+fi
+mkdir -p ~/.config/ghostty
+cp "$SRC_DIR"/desktop/config.ghostty ~/.config/ghostty/
+
+dconf load /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/ < "$SRC_DIR"/desktop/gnome_custom_shortcuts.dconf
+
 # Get current GNOME Shell major version (e.g., "49" from "49.5")
 GNOME_VERSION=""
 if command -v gnome-shell &>/dev/null; then
@@ -50,4 +81,4 @@ for ext in "${array[@]}"; do
     rm -f "${ext}.zip"
 done
 
-dconf load /org/gnome/shell/extensions/ < "$SRC_DIR"/gnome_shell_extensions_backup.dconf
+dconf load /org/gnome/shell/extensions/ < "$SRC_DIR"/desktop/gnome_shell_extensions_backup.dconf
