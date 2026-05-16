@@ -14,7 +14,7 @@ echo "=== Install necessary packages ==="
 brew update
 brew install curl wget rsync trash-cli unzip \
              git tmux zsh htop btop clang-format cloc bear \
-             gdb cmake meson pkg-config socat ranger
+             gdb cmake meson pkg-config ranger
 
 wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Terminus.zip
 unzip -d Terminus Terminus.zip
