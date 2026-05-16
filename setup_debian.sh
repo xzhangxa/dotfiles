@@ -15,7 +15,7 @@ sudo -E apt-get install -y \
             aptitude apt-file openssh-server curl wget rsync trash-cli unzip \
             git tmux zsh htop btop clang-format cloc bear \
             build-essential gdb cmake cmake-curses-gui meson pkgconf \
-            fuse3 command-not-found socat ranger
+            fuse3 command-not-found ranger
 
 sudo -E apt-file update
 
@@ -23,7 +23,6 @@ echo "=== Copy config files ==="
 cp "$SRC_DIR"/gitconfig ~/.gitconfig
 cp "$SRC_DIR"/tmux.conf ~/.tmux.conf
 cp "$SRC_DIR"/dgdb ~/.local/bin
-cp "$SRC_DIR"/git-proxy ~/.local/bin
 
 echo "=== Setup GDB ==="
 wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -O ~/.gdbinit
