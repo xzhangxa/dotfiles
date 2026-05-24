@@ -12,25 +12,14 @@ SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
 # Use modern completion system
-autoload -Uz compinit
-compinit
+autoload -Uz compinit && compinit
+zmodload zsh/complist
 
 zstyle ':completion:*:*:*:*:users' ignored-patterns '*'
 zstyle ':completion:*:*:*:*:hosts' ignored-patterns '*'
-zstyle ':completion:*' completer _complete _expand _approximate
+zstyle ':completion:*' completer _complete _expand
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|=*'
-
-# Load menu selection module
-zmodload zsh/complist
-
-# Configure completion to show a menu and allow cycling
-zstyle ':completion:*' menu yes select=1
-
-# Optional: allow arrow keys to move in the menu
-bindkey -M menuselect '^[[A' up-line-or-history    # Up arrow
-bindkey -M menuselect '^[[B' down-line-or-history  # Down arrow
-bindkey -M menuselect '^[[C' forward-char          # Right arrow
-bindkey -M menuselect '^[[D' backward-char         # Left arrow
+zstyle ':completion:*' menu auto select=1
 
 eval "$(dircolors)"
 if [[ -n $LS_COLORS ]]; then
