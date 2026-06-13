@@ -10,22 +10,27 @@ mkdir -p /tmp/zx_setup
 cd /tmp/zx_setup
 
 echo "=== Install necessary packages ==="
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew update
-brew install curl wget rsync trash-cli unzip \
-             git tmux zsh htop btop clang-format cloc bear \
-             gdb cmake meson pkg-config ranger
+brew install -y \
+        curl wget rsync trash-cli unzip coreutils \
+        git tmux zsh htop btop clang-format cloc bear \
+        gdb cmake meson pkg-config ranger
 
-wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Terminus.zip
-unzip -d Terminus Terminus.zip
-mkdir -p ~/Library/Fonts/
-cp Terminus/TerminessNerdFontMono-*.ttf ~/Library/Fonts/
+brew install --cask mos
+brew install --cask font-terminess-ttf-nerd-font
+brew install --cask ghostty
+brew install --cask karabiner-elements
+
+mkdir -p ~/.config/ghostty
+mkdir -p ~/.config/karabiner
+cp "$SRC_DIR"/desktop/config.ghostty ~/.config/ghostty/
+cp "$SRC_DIR"/desktop/karabiner.json ~/.config/karabiner/
 
 echo "=== Copy config files ==="
 cp "$SRC_DIR"/gitconfig ~/.gitconfig
 cp "$SRC_DIR"/tmux.conf ~/.tmux.conf
 cp "$SRC_DIR"/dgdb ~/.local/bin
-cp "$SRC_DIR"/git-proxy ~/.local/bin
 
 echo "=== Setup GDB ==="
 wget https://raw.githubusercontent.com/cyrus-and/gdb-dashboard/master/.gdbinit -O ~/.gdbinit
@@ -52,13 +57,13 @@ wget -P ~/.zsh-plugins/omz/ https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/re
 cp "$SRC_DIR"/zshrc ~/.zshrc
 cp "$SRC_DIR"/starship.toml ~/.config/starship.toml
 
-echo "=== Setup neovim and vim-plug ==="
-brew install neovim
+echo "=== Setup neovim and plugins ==="
+brew install -y neovim
 mkdir -p ~/.config/nvim
 rsync -a "$SRC_DIR"/nvim/ ~/.config/nvim/
 
 echo "=== Setup lazygit ==="
-brew install lazygit
+brew install -y lazygit
 mkdir -p ~/.config/lazygit
 cp "$SRC_DIR"/lazygit.yml ~/.config/lazygit/config.yml
 
@@ -72,6 +77,7 @@ echo "=== Setup rust and tools from cargo ==="
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
 source ~/.cargo/env
 cargo install ripgrep bat eza fd-find
+rustup component add rust-analyzer
 
 echo "remember to re-login."
 echo "Bye Bye."

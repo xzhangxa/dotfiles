@@ -49,7 +49,7 @@ wget -P ~/.zsh-plugins/omz/ https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/re
 cp "$SRC_DIR"/zshrc ~/.zshrc
 cp "$SRC_DIR"/starship.toml ~/.config/starship.toml
 
-echo "=== Setup neovim, vim-plug and plugins ==="
+echo "=== Setup neovim and plugins ==="
 wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.appimage -O ~/.local/bin/nvim
 chmod +x ~/.local/bin/nvim
 mkdir -p ~/.config/nvim

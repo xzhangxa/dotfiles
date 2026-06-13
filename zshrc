@@ -21,7 +21,11 @@ zstyle ':completion:*' completer _complete _expand
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|=*'
 zstyle ':completion:*' menu auto select=1
 
-eval "$(dircolors)"
+if (( $+commands[dircolors] )); then
+  eval "$(dircolors)"
+elif (( $+commands[gdircolors] )); then
+  eval "$(gdircolors)"
+fi
 if [[ -n $LS_COLORS ]]; then
   zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 fi
@@ -79,7 +83,11 @@ source ~/.zsh-plugins/omz/colored-man-pages.plugin.zsh
 source ~/.zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 
-alias rm='trash-put'
+if [[ $(uname) == "Darwin" ]]; then
+  alias rm='trash'
+else
+  alias rm='trash-put'
+fi
 alias ls='eza'
 alias l='eza'
 alias ll='eza -lg'
