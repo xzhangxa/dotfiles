@@ -10,11 +10,22 @@ return {
     {
       "folke/snacks.nvim",
       opts = {
-        input = {},
-        terminal = {},
+        input = {
+          enabled = true,
+        },
         picker = {
+          enabled = true,
           actions = {
-            opencode_send = function(...) return require("opencode").snacks_picker_send(...) end,
+            ---@param picker snacks.Picker
+            opencode_send = function(picker)
+              local items = vim.tbl_map(function(item) ---@param item snacks.picker.Item
+                return item.file
+                  and require("opencode").format({ path = item.file, from = item.pos, to = item.end_pos })
+                  or item.text
+              end, picker:selected({ fallback = true }))
+
+              require("opencode").prompt(table.concat(items, ", ") .. " ")
+            end,
           },
           win = {
             input = {
@@ -33,9 +44,6 @@ return {
       win = {
         position = "right",
         enter = false,
-        on_win = function(win)
-          require("opencode.terminal").setup(win.win)
-        end,
       },
     }
 
@@ -43,12 +51,6 @@ return {
       server = {
         start = function()
           require("snacks.terminal").open(opencode_cmd, snacks_terminal_opts)
-        end,
-        stop = function()
-          require("snacks.terminal").get(opencode_cmd, snacks_terminal_opts):close()
-        end,
-        toggle = function()
-          require("snacks.terminal").toggle(opencode_cmd, snacks_terminal_opts)
         end,
       },
     }
@@ -58,13 +60,7 @@ return {
     vim.keymap.set({ "n", "x" }, "<C-a>", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Ask opencode…" })
     vim.keymap.set({ "n", "x" }, "<C-x>", function() require("opencode").select() end,                          { desc = "Execute opencode action…" })
     vim.keymap.set({ "n", "t" }, "<C-\\>", function()
-      require("opencode").toggle()
-      vim.schedule(function()
-        local term = require("snacks.terminal").get(opencode_cmd, snacks_terminal_opts)
-        if term and term.win and vim.api.nvim_win_is_valid(term.win) then
-          vim.api.nvim_set_current_win(term.win)
-        end
-      end)
+      require('snacks.terminal').toggle(opencode_cmd, snacks_terminal_opts)
     end, { desc = "Toggle opencode" })
 
     vim.keymap.set({ "n", "x" }, "go",  function() return require("opencode").operator("@this ") end,        { desc = "Add range to opencode", expr = true })
