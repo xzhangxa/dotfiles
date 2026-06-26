@@ -13,7 +13,7 @@ echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt
 
 sudo apt update
 
-sudo apt-get install -y intel-oneapi-base-toolkit
+sudo apt-get install -y intel-oneapi-toolkit
 
 sudo usermod -a -G video "${USER}"
 sudo usermod -a -G render "${USER}"
