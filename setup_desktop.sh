@@ -18,9 +18,12 @@ sudo -E apt-get install -y fcitx5-pinyin
 rsync -a "$SRC_DIR"/desktop/fcitx5/ ~/.config/fcitx5/
 
 wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Terminus.zip
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip
 unzip -d Terminus Terminus.zip
+unzip -d JetBrainsMono JetBrainsMono.zip
 mkdir -p ~/.local/share/fonts/
 cp Terminus/TerminessNerdFontMono-*.ttf ~/.local/share/fonts/
+cp JetBrainsMono/JetBrainsMonoNerdFontMono-{Regular,Bold,Italic,BoldItalic}.ttf ~/.local/share/fonts/
 fc-cache -f
 
 OS_ID=""

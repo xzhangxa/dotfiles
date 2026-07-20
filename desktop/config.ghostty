@@ -1,5 +1,5 @@
-font-family = Terminess Nerd Font Mono
-font-size = 14
+# font-family = Terminess Nerd Font Mono
+# font-size = 11
 
 theme = Gruvbox Dark
 
