@@ -72,7 +72,7 @@ echo "=== Setup rust and tools from cargo ==="
 #   export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
 source ~/.cargo/env
-cargo install ripgrep bat eza fd-find
+cargo install ripgrep bat eza fd-find tree-sitter-cli
 rustup component add rust-analyzer
 
 echo "remember to re-login."
