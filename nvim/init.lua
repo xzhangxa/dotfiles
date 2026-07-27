@@ -4,7 +4,10 @@ vim.g.loaded_netrwPlugin = 1
 
 vim.g.mapleader = " "
 
-if not vim.g.vscode then
+-- skip plugin/UI setup under the VSCode Neovim extension or on Windows
+local minimal = vim.g.vscode or vim.fn.has("win32") == 1
+
+if not minimal then
   -- bootstrap lazy.nvim
   local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
   if not vim.uv.fs_stat(lazypath) then
@@ -47,9 +50,10 @@ vim.keymap.set('v', '/', 'y/<C-r>"<CR>', {})
 vim.keymap.set('v', '?', 'y?<C-r>"<CR>', {})
 
 -- ui, color, etc.
-if not vim.g.vscode then
-  vim.opt.background = 'dark'
+if not minimal then
   vim.cmd.colorscheme('gruvbox')
+else
+  vim.cmd.colorscheme('retrobox')
 end
 vim.opt.cursorline = true
 vim.opt.colorcolumn = { '80', '120' }
@@ -58,6 +62,9 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.scrolloff = 5
 vim.fn.matchadd('ErrorMsg', '\\s\\+$')
+if vim.g.neovide then
+  vim.o.guifont = "JetBrainsMono Nerd Font Mono:h12"
+end
 
 -- lsp, diagnostic
 vim.keymap.set({'n', 'v'}, '<leader>5', vim.lsp.buf.format)

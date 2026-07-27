@@ -5,10 +5,9 @@ return {
   build = ":TSUpdate",
   config = function()
     require('nvim-treesitter').install {
-      'c', 'cpp', 'rust', 'python', 'cuda', 'asm', 'devicetree',
-      'toml', 'yaml', 'json', 'markdown', 'dockerfile',
-      'make', 'cmake', 'meson', 'bash', 'llvm',
-      'lua', 'vim', 'vimdoc'
+      'cpp', 'rust', 'python', 'cuda', 'asm', 'devicetree',
+      'toml', 'yaml', 'json', 'dockerfile',
+      'make', 'cmake', 'meson', 'bash', 'llvm'
     }
     vim.api.nvim_create_autocmd('FileType', {
       pattern = { '<filetype>' },
