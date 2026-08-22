@@ -55,6 +55,7 @@ array=(
     kimpanel@kde.org
     tilingshell@ferrarodomenico.com
     appindicatorsupport@rgcjonas.gmail.com
+    touchpad-gesture-customization@coooolapps.com
 )
 
 for ext in "${array[@]}"; do
