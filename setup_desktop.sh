@@ -44,6 +44,11 @@ cp "$SRC_DIR"/desktop/config.ghostty ~/.config/ghostty/
 
 dconf load /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/ < "$SRC_DIR"/desktop/gnome_custom_shortcuts.dconf
 
+if [ "$OS_ID" = "ubuntu" ]; then
+    gsettings set org.gnome.desktop.wm.keybindings switch-applications "['<Super>Tab', '<Alt>Tab']"
+    gsettings set org.gnome.desktop.wm.keybindings switch-windows "[]"
+fi
+
 # Get current GNOME Shell major version (e.g., "49" from "49.5")
 GNOME_VERSION=""
 if command -v gnome-shell &>/dev/null; then

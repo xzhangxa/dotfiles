@@ -48,3 +48,7 @@ override-alt-tab=false
 raise-together=false
 selected-layouts=[['Layout 4'], ['Layout 4']]
 snap-assist-sync-layout=true
+
+[touchpad-gesture-customization]
+vertical-swipe-3-fingers-gesture='WINDOW_MANIPULATION'
+vertical-swipe-4-fingers-gesture='OVERVIEW_NAVIGATION'
