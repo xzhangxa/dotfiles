@@ -8,6 +8,8 @@
 	default = simple
 [pull]
 	ff = only
+[fetch]
+	prune = true
 [diff]
 	tool = nvim -d
 [alias]
