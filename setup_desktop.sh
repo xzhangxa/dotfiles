@@ -102,3 +102,4 @@ for ext in "${array[@]}"; do
 done
 
 dconf load /org/gnome/shell/extensions/ < "$SRC_DIR"/desktop/gnome_shell_extensions_backup.dconf
+gsettings set org.gnome.shell always-show-log-out true
