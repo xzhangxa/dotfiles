@@ -5,7 +5,7 @@ end
 
 return {
   "nickjvandyke/opencode.nvim",
-  version = "*",
+  branch = "main",
   dependencies = {
     {
       "folke/snacks.nvim",
@@ -39,7 +39,7 @@ return {
     },
   },
   config = function()
-    local opencode_cmd = "opencode --port"
+    local opencode_cmd = "opencode"
     local snacks_terminal_opts = {
       win = {
         position = "right",
@@ -57,7 +57,7 @@ return {
 
     vim.o.autoread = true
 
-    vim.keymap.set({ "n", "x" }, "<C-a>", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Ask opencode…" })
+    vim.keymap.set({ "n", "x" }, "<C-a>", function() require("opencode").ask("@this: ") end,                    { desc = "Ask opencode…" })
     vim.keymap.set({ "n", "x" }, "<C-x>", function() require("opencode").select() end,                          { desc = "Execute opencode action…" })
     vim.keymap.set({ "n", "t" }, "<C-\\>", function()
       require('snacks.terminal').toggle(opencode_cmd, snacks_terminal_opts)

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "theme": {
+    "name": "gruvbox"
+  },
+  "diffs": {
+    "wrap": "word"
+  },
+  "session": {
+    "sidebar": "auto",
+    "scrollbar": true,
+    "thinking": "hide",
+    "permissions": "prompt"
+  },
+  "animations": true,
+  "tabs": {
+    "mode": "auto"
+  },
+  "attention": {
+    "notifications": true,
+    "sound": false
+  },
+  "terminal": {
+    "title": true,
+    "copy": "select"
+  }
+}
