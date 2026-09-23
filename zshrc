@@ -104,7 +104,8 @@ export VISUAL=nvim
 export EDITOR=nvim
 set -o vi
 
-[[ $TMUX == "" ]] && export TERM="xterm-256color"
+# TERM is left to the terminal/tmux so capabilities (true color, extkeys)
+# are detected correctly.
 
 # alias cp -- Show progress while file is copying and make backup
 # -p - preserve permissions
@@ -124,8 +125,11 @@ dexec() {
 }
 
 export CMAKE_EXPORT_COMPILE_COMMANDS=ON
-if [[ `uname` == "Linux" && `lsb_release -i` =~ ".*Debian" ]]; then
-    export DEBUGINFOD_URLS="https://debuginfod.debian.net"
+if [[ `uname` == "Linux" && -r /etc/os-release ]]; then
+    case $(source /etc/os-release && echo "$ID") in
+        debian) export DEBUGINFOD_URLS="https://debuginfod.debian.net" ;;
+        ubuntu) export DEBUGINFOD_URLS="https://debuginfod.ubuntu.com" ;;
+    esac
 fi
 
 [[ ! -f ~/.cargo/env ]] || source ~/.cargo/env

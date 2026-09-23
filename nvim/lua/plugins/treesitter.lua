@@ -10,8 +10,9 @@ return {
       'make', 'cmake', 'meson', 'bash', 'llvm'
     }
     vim.api.nvim_create_autocmd('FileType', {
-      pattern = { '<filetype>' },
-      callback = function() vim.treesitter.start() end,
+      -- Start highlighting when a parser for the buffer's filetype is
+      -- installed; pcall silently skips filetypes without one.
+      callback = function(args) pcall(vim.treesitter.start, args.buf) end,
     })
   end,
 }
