@@ -7,14 +7,14 @@ SRC_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 mkdir -p /tmp/zx_setup
 cd /tmp/zx_setup
 
-sudo -E apt-get install -y keyd
+sudo --preserve-env=http_proxy,https_proxy apt-get install -y keyd
 sudo mkdir -p /etc/libinput /etc/keyd
 sudo cp "$SRC_DIR"/desktop/keyd-default.conf /etc/keyd/
 sudo cp "$SRC_DIR"/desktop/local-overrides.quirks /etc/libinput/
 
-sudo -E apt-get install -y wl-clipboard
+sudo --preserve-env=http_proxy,https_proxy apt-get install -y wl-clipboard
 
-sudo -E apt-get install -y fcitx5-pinyin
+sudo --preserve-env=http_proxy,https_proxy apt-get install -y fcitx5-pinyin
 rsync -a "$SRC_DIR"/desktop/fcitx5/ ~/.config/fcitx5/
 
 wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Terminus.zip
@@ -36,8 +36,8 @@ if [ "$OS_ID" = "ubuntu" ]; then
 else
     curl -sS https://debian.griffo.io/EA0F721D231FDD3A0A17B9AC7808B4DD62C41256.asc | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/debian.griffo.io.gpg
     echo "deb https://debian.griffo.io/apt $(lsb_release -sc 2>/dev/null) main" | sudo tee /etc/apt/sources.list.d/debian.griffo.io.list
-    sudo -E apt-get update
-    sudo -E apt-get install ghostty
+    sudo --preserve-env=http_proxy,https_proxy apt-get update
+    sudo --preserve-env=http_proxy,https_proxy apt-get install ghostty
 fi
 mkdir -p ~/.config/ghostty
 cp "$SRC_DIR"/desktop/config.ghostty ~/.config/ghostty/

@@ -8,14 +8,12 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib_common.sh"
 common_preamble
 
 echo "=== Install necessary packages ==="
-sudo -E apt-get update
-sudo -E apt-get install -y \
+sudo --preserve-env=http_proxy,https_proxy apt-get update
+sudo --preserve-env=http_proxy,https_proxy apt-get install -y \
             aptitude apt-file openssh-server curl wget rsync trash-cli unzip \
             git tmux zsh htop btop clang-format cloc bear \
             build-essential gdb cmake cmake-curses-gui meson pkgconf \
             fuse3 command-not-found ranger
-
-sudo -E apt-file update
 
 copy_config_files
 
