@@ -88,6 +88,8 @@ if [[ $(uname) == "Darwin" ]]; then
 else
   alias rm='trash-put'
 fi
+# cpr -- rsync archive copy with a progress bar.
+alias cpr="rsync -ah --info=progress2"
 alias ls='eza'
 alias l='eza'
 alias ll='eza -lg'
@@ -106,19 +108,6 @@ set -o vi
 
 # TERM is left to the terminal/tmux so capabilities (true color, extkeys)
 # are detected correctly.
-
-# alias cp -- Show progress while file is copying and make backup
-# -p - preserve permissions
-# -o - preserve owner
-# -g - preserve group
-# -l - preserve symlinks
-# -h - output in human-readable format
-# --progress - display progress
-# -b - instead of just overwriting an existing file, save the original
-# -r - recurse into directories
-# --backup-dir=/tmp/rsync - move backup copies to "/tmp/rsync"
-# -e /dev/null - only work on local files
-alias cp="rsync -poglhbr --backup-dir=/tmp/rsync -e /dev/null --info=progress2 "
 
 dexec() {
     docker exec -it $1 bash -c "stty cols $COLUMNS rows $LINES && bash";
