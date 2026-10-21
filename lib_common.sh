@@ -47,7 +47,7 @@ setup_zsh() {
         rm -rf ~/.zsh-plugins/
     fi
     mkdir -p ~/.zsh-plugins/omz
-    curl -sS https://starship.rs/install.sh | sh -s -- -y -b ~/.local/bin
+    curl -fsSL https://starship.rs/install.sh | sh -s -- -y -b ~/.local/bin
     git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh-plugins/zsh-syntax-highlighting
     wget -P ~/.zsh-plugins/omz/ https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/refs/heads/master/plugins/extract/extract.plugin.zsh
     wget -P ~/.zsh-plugins/omz/ https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/refs/heads/master/plugins/command-not-found/command-not-found.plugin.zsh
@@ -58,7 +58,7 @@ setup_zsh() {
 
 install_nvim_config() {
     mkdir -p ~/.config/nvim
-    rsync -a "$SRC_DIR"/nvim/ ~/.config/nvim/
+    rsync -a --delete --exclude .opencode-enabled --exclude lazy-lock.json "$SRC_DIR"/nvim/ ~/.config/nvim/
 }
 
 install_lazygit_config() {
@@ -77,7 +77,13 @@ setup_rust() {
     #   export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
     #   export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
-    source ~/.cargo/env
+    if [ -f "$HOME/.cargo/env" ]; then
+        source "$HOME/.cargo/env"
+    fi
+    if ! command -v cargo >/dev/null 2>&1; then
+        echo "cargo is unavailable after rustup setup (expected $HOME/.cargo/env or cargo on PATH)." >&2
+        exit 1
+    fi
     cargo install ripgrep bat eza fd-find tree-sitter-cli
     rustup component add rust-analyzer
 }
