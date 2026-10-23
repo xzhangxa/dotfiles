@@ -98,10 +98,13 @@ brew install -y \
         git tmux zsh htop btop clang-format cloc bear \
         gdb cmake meson pkg-config ranger
 
+brew upgrade
+
 brew install --cask mos
 brew install --cask font-terminess-ttf-nerd-font
 brew install --cask ghostty
 brew install --cask karabiner-elements
+brew upgrade --cask
 
 mkdir -p ~/.config/ghostty
 mkdir -p ~/.config/karabiner

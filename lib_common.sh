@@ -35,9 +35,10 @@ setup_gdb() {
 setup_fzf() {
     echo "=== Setup fzf ==="
     if [ -d ~/.fzf ]; then
-        rm -rf ~/.fzf
+        git -C ~/.fzf pull --ff-only || true
+    else
+        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     fi
-    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install --all --no-fish
 }
 
@@ -59,6 +60,14 @@ setup_zsh() {
 install_nvim_config() {
     mkdir -p ~/.config/nvim
     rsync -a --delete --exclude .opencode-enabled --exclude lazy-lock.json "$SRC_DIR"/nvim/ ~/.config/nvim/
+    local nvim_bin
+    nvim_bin="$(command -v nvim || true)"
+    if [ -z "$nvim_bin" ] && [ -x ~/.local/bin/nvim ]; then
+        nvim_bin=~/.local/bin/nvim
+    fi
+    if [ -n "$nvim_bin" ]; then
+        "$nvim_bin" --headless "+Lazy! sync" +qa
+    fi
 }
 
 install_lazygit_config() {
@@ -76,7 +85,9 @@ setup_rust() {
     # if rustup is slow:
     #   export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
     #   export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
+    if ! command -v rustup >/dev/null 2>&1 && [ ! -x "$HOME/.cargo/bin/rustup" ]; then
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
+    fi
     if [ -f "$HOME/.cargo/env" ]; then
         source "$HOME/.cargo/env"
     fi
@@ -84,7 +95,9 @@ setup_rust() {
         echo "cargo is unavailable after rustup setup (expected $HOME/.cargo/env or cargo on PATH)." >&2
         exit 1
     fi
-    cargo install ripgrep bat eza fd-find tree-sitter-cli
+    rustup update
+    cargo install ripgrep bat fd-find tree-sitter-cli
+    cargo install eza --locked
     rustup component add rust-analyzer
 }
 
