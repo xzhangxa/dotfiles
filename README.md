@@ -10,3 +10,7 @@ Personal shell config files for Debian/Ubuntu and macOS. See setup scripts for d
 - `setup_kernel_dev.sh` — kernel dev extras
 - `setup_oneapi.sh` — Intel oneAPI
 - `setup_opencode.sh` — OpenCode
+
+## Utilities
+
+- `integrate_appimage.sh App.AppImage` — install an AppImage into `~/.local/bin` and add its desktop entry and icon
